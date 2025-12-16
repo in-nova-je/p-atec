@@ -9,4 +9,5 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByName(String name);  // returns list (if duplicates exist)
+    User findByName(String name);
 }

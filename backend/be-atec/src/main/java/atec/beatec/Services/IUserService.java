@@ -1,6 +1,7 @@
 
 
 package atec.beatec.Services;
+import atec.beatec.Entities.User;
 import atec.beatec.Entities.UserDTO;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +32,9 @@ public interface IUserService {
      * @return The User with the given ID, or null if not found.
      */
     UserDTO getById(Long id);
-
-
     List<UserDTO> getAllByName(String name);
+    UserDTO getByName(String name);
+    boolean ConfirmPassword(String name,String password );
 }
 
 

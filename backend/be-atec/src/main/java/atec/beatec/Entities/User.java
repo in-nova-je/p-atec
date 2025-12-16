@@ -37,18 +37,30 @@ public class User {
      * @param name     The user's name
      * @param password The user's password (hashed)
      */
+
     public User(String name, int level, String password) {
         this.name = name;
         this.level = level;
         this.password = password;
     }
 
+
+    /**
+     * Constructor for creating a new User.
+     *
+     * @param id
+     * @param name     The user's name
+     * @param level the users level
+     * @param password   The user's password (hashed)
+     */
     public User(long id,String name, int level, String password) {
         this.id = id;
         this.name = name;
         this.level = level;
         this.password = password;
     }
+
+
 
     // --------------------
     // Getters
@@ -64,6 +76,12 @@ public class User {
         return level;
     }
     public String getPassword() {return password;}
+
+
+
+
+
+
 
 
 
