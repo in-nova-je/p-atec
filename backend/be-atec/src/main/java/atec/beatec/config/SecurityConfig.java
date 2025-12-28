@@ -43,10 +43,25 @@ public class SecurityConfig {
 
     private final RsaKeyProprieties rsaKeys;
 
+    /**
+     *
+     * @param userDetailsServiceService
+     * @param rsaKeys
+     * contrutor for security config
+     */
     public SecurityConfig(UserDetailsService userDetailsServiceService,RsaKeyProprieties rsaKeys) {
         this.userDetailsService = userDetailsServiceService;
         this.rsaKeys=rsaKeys;
     }
+
+    /**
+     *
+     * @param http
+     * defines security rules of endpoint access and how authentication is established
+     * @return
+     * @throws Exception
+     *
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -60,20 +75,39 @@ public class SecurityConfig {
                 //.httpBasic(Customizer.withDefaults()) //funcionou com isto e sem as duas linhas a cima
                 .build();
     }
+
+    /**
+     * defines a authentication based on the userDetailsService interface that is used for authentication
+     * @return
+     */
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider= new DaoAuthenticationProvider(this.userDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
+
+    /**
+     * initializes a BcryptPasswordEncoder
+     * @return
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    /**
+     * use for decoding Jwt tokens(used internaly by Spring)
+     * @return (decoded jwt token )
+     */
     @Bean
     JwtDecoder jwtDecoder(){
         return NimbusJwtDecoder.withPublicKey(rsaKeys.publicKey()).build();
     }
+    /**
+     * use for encodign Jwt tokens(used internaly by Spring)
+     * @return (encoded jwt token )
+     */
     @Bean
     JwtEncoder jwtEncoder(){
         JWK jwk = new RSAKey.Builder(rsaKeys.publicKey()).privateKey(rsaKeys.privateKey()).build();

@@ -90,6 +90,7 @@ public class UserService implements IUserService {
     }
 
     //confirms that user password is correct
+
     public boolean ConfirmPassword(String name, String password) {//no futuro vai ser hash da password
         var user = userRepository.findByName(name);
         return passwordEncoder.matches(password, user.getPassword());

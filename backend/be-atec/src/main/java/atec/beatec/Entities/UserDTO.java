@@ -14,14 +14,21 @@ public class UserDTO {
     // --------------------
     // Getters
     // --------------------
+    /**
+     gets user id
+     */
     public Long getId() {
         return id;
     }
-
+    /**
+     gets username
+     */
     public String getName() {
         return name;
     }
-
+    /**
+     gets user level
+     */
     public int getLevel() {
         return level;
     }

@@ -16,9 +16,22 @@ import static atec.beatec.config.SecurityConstants.JWT_EXPIRATION_TIME;
 @Service
 public class JWTTokenService {
     private final JwtEncoder jwtEncoder;
+
+    /**
+     *
+     * @param jwtEncoder
+     * contructor for jwttoken service
+     */
     public JWTTokenService(JwtEncoder jwtEncoder) {
         this.jwtEncoder = jwtEncoder;
     }
+
+    /**
+     *
+     * @param authentication
+     * generates a new jwt token
+     * @return jwt token
+     */
     public String generateToken(Authentication authentication) {
 
         long now = System.currentTimeMillis();

@@ -65,16 +65,27 @@ public class User {
     // --------------------
     // Getters
     // --------------------
-
+        /**
+    gets user id
+    */
     public Long getId() {
         return id;
     }
+    /**
+     gets username
+     */
     public String getName() {
         return name;
     }
+    /**
+     gets user level
+     */
     public int getLevel() {
         return level;
     }
+    /**
+     gets user password
+     */
     public String getPassword() {return password;}
 
 
@@ -97,7 +108,5 @@ public class User {
 
 
 
-    /* *
-     *  @Column(length = 50, nullable = false)
-     */
+
 }
