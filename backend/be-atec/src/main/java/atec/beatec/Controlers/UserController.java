@@ -63,16 +63,10 @@ public class UserController {
             String token = jwtTokenService.generateToken(auth);
             Map<String, String> response = Map.of("token", token);
             return  ResponseEntity.ok(response);
-
-
-
         }
         else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-
-
-
     }
 
     /**
@@ -113,4 +107,40 @@ public class UserController {
         UserDTO updateUser = userService.updateUser(id, name, level);
         return ResponseEntity.ok(updateUser);
     }
+
+    /**
+     *
+     * @param pageSize size of page
+     * @param pageNumber number of users
+     * @return all given users in a given page
+     */
+    @GetMapping("/allusers")
+    public ResponseEntity<?> getAllUsers(@RequestParam int pageSize,@RequestParam int pageNumber) {
+        List<UserDTO> allusers= userService.ListAllUsers(pageSize,pageNumber);
+        if(allusers.size()==0)
+        {
+            return ResponseEntity.noContent().build();
+        }
+        if(allusers==null)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(allusers);
+    }
+
+    /**
+     *
+     * @param id
+     * @return sucess mesage "delete" or not found response if the user doesnt exist
+     */
+    @DeleteMapping
+    public ResponseEntity<?> deleteById(@RequestParam Long id) {
+        var user = userService.getById(id);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        userService.DeleteUser(id);
+        return ResponseEntity.ok("deleted");
+    }
+
 }

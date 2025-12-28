@@ -65,6 +65,10 @@ public interface IUserService {
      */
 
     boolean ConfirmPassword(String name,String password );
+
+    List<UserDTO> ListAllUsers(int pageSize,int pageNumber);
+
+    void DeleteUser(Long id);
 }
 
 
