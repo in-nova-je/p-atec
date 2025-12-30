@@ -53,6 +53,14 @@ public class Enterprise {
         this.WebsiteLink =  WebsiteLink;
     }
 
+    public Enterprise(Long id,String name, String description,List<String> FieldsOfInterest, String WebsiteLink) {
+        this.id = id;
+        this.name = name;
+        this.description =description;
+        this.FieldsOfInterest = FieldsOfInterest;
+        this.WebsiteLink =  WebsiteLink;
+    }
+
     // --------------------
     // Getters
     // --------------------

@@ -18,49 +18,23 @@ public class UserService implements IUserService {
 
     private final UserRepository userRepository;
 
-
     private final BCryptPasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
-
-    //or Autowired, Wy im i not using Autowired?
-    //    @Autowired
-
-
     // Create user
     @Transactional //when should i use it ? (makes the methos calles atomic)
     public UserDTO createUser(String name, int level, String password) {
 
         //for conditions use a method validator to go allong the solid principles
-
-
-        User user = new User(name, level,passwordEncoder.encode(password));
-
-        /*
-        funcao de hash a password
-        */
-
-
+        User user = new User(name, level,passwordEncoder.encode(password));//hashing
         var saved = userRepository.save(user);
         return new UserDTO(saved.getId(), saved.getName(), saved.getLevel());
     }
-
-
-    boolean UserWithSameNameExists(String name) {
-        if(userRepository.findByName(name)!=null) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-
     // Get user by ID
-    public UserDTO getById(Long id) {
+    public UserDTO getUserById(Long id) {
         var result =  userRepository.findById(id)
                 .orElse(null);
 
@@ -68,39 +42,24 @@ public class UserService implements IUserService {
         return new UserDTO(result.getId(), result.getName(), result.getLevel());
     }
 
-    public UserDTO getByName(String name) {
+    public UserDTO getUserByName(String name) {
        try {
            var user = userRepository.findByName(name);
            return new UserDTO(user.getId(), user.getName(), user.getLevel());
        }catch (Exception e) {return null; }
 
-
-
     }
-
-    // Get all users by name
-    public List<UserDTO> getAllByName(String name) {
-        return userRepository.findAllByName(name)
-                .stream()
-                .map(user -> new UserDTO(user.getId(), user.getName(), user.getLevel()))
-                .toList();
-    }
-
-
     //updates user fields
     public UserDTO updateUser(Long id, String name, int level) {
         User updatedUser= new User(id, name, level,null);
         User saved=userRepository.save(updatedUser);
         return new UserDTO(saved.getId(),saved.getName(),saved.getLevel());
     }
-
     //confirms that user password is correct
-
     public boolean ConfirmPassword(String name, String password) {//no futuro vai ser hash da password
         var user = userRepository.findByName(name);
         return passwordEncoder.matches(password, user.getPassword());
     }
-
     @Override
     public List<UserDTO> ListAllUsers(int pageSize,int pageNumber) {
         Page<User> page = userRepository.findAll(PageRequest.of(pageNumber, pageSize));

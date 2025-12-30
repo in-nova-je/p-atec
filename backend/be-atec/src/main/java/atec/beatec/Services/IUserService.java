@@ -43,20 +43,15 @@ public interface IUserService {
      * @param id The ID of the user to retrieve.
      * @return The User with the given ID, or null if not found.
      */
-    UserDTO getById(Long id);
+    UserDTO getUserById(Long id);
 
-    /**
-     * gets a List or a Single user with a given name.
-     * @param name The name of the user(s) to find.
-     * @return User List or one User entity.
-     */
-    List<UserDTO> getAllByName(String name);
+
     /**
      * gets a Single user with a given name.
      * @param name The name of the user to find.
      * @return given User entity with correspondent name.
      */
-    UserDTO getByName(String name);
+    UserDTO getUserByName(String name);
     /**
      * Confirms if User password is correct.
      * @param name The name of the user.
@@ -66,8 +61,18 @@ public interface IUserService {
 
     boolean ConfirmPassword(String name,String password );
 
+    /**
+     * list all Users in page with a given dimension
+     * @param pageSize
+     * @param pageNumber
+     * @return
+     */
     List<UserDTO> ListAllUsers(int pageSize,int pageNumber);
 
+    /**
+     * deletes a user with a give id
+     * @param id
+     */
     void DeleteUser(Long id);
 }
 
