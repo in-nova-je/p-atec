@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Reunião de Planeamento",
+    "dateBegin": "2025-12-31T16:00:00",
+    "dateEnd": "2025-12-31T18:00:00",
+    "location": "Sala de Reuniões A"
+  },
+  {
+    "title": "Preparação para a Passagem de Ano",
+    "dateBegin": "2025-12-31T18:00:00",
+    "dateEnd": "2025-12-31T22:00:00",
+    "location": "Auditório Principal"
+  },
+  {
+    "title": "Sessão de Boas-vindas ao Novo Ano",
+    "dateBegin": "2026-01-01T10:30:00",
+    "dateEnd": "2026-01-01T11:30:00",
+    "location": "Auditório Principal"
+  },
+  {
+    "title": "Workshop: Definição de Metas 2026",
+    "dateBegin": "2026-01-01T14:00:00",
+    "dateEnd": "2026-01-01T16:00:00",
+    "location": "Sala 204"
+  },
+  {
+    "title": "Palestra: Tendências Tecnológicas para 2026",
+    "dateBegin": "2026-01-02T09:30:00",
+    "dateEnd": "2026-01-02T10:30:00",
+    "location": "Auditório Principal"
+  },
+  {
+    "title": "Mesa Redonda: Inovação e Futuro",
+    "dateBegin": "2026-01-02T11:00:00",
+    "dateEnd": "2026-01-02T12:30:00",
+    "location": "Sala de Conferências"
+  },
+  {
+    "title": "Encerramento do Evento",
+    "dateBegin": "2026-01-03T16:00:00",
+    "dateEnd": "2026-01-03T17:00:00",
+    "location": "Auditório Principal"
+  }
+]

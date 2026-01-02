@@ -10,8 +10,7 @@ export default function Prompt() {
     setIsStandalone(window.matchMedia("(display-mode: standalone)").matches);
   }, []);
   return (
-    !isStandalone &&
-    process.env.NEXT_PUBLIC_DEBUG == "false" && (
+    !isStandalone && (
       <>
         {open && <PromptSteps setOpen={setOpen} />}
         <div className="md:hidden fixed w-full flex justify-between top-0 border-b border-secondary/25 h-18 p-4 gap-2 font-sans bg-background">
