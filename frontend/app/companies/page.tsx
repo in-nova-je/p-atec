@@ -4,15 +4,20 @@ import SearchBar from "@/components/SearchBar";
 import { useEffect, useState } from "react";
 import companies from "@/json/companies.json";
 import CompanyCard from "@/components/CompanyCard";
+import { type Enterprise } from "@/lib/types";
 
 export default function Companies() {
   const [search, setSearch] = useState("");
-  const [filteredCompanies, setFilteredCompanies] = useState(companies);
+  const [filteredCompanies, setFilteredCompanies] = useState<Enterprise[]>(
+    companies as Enterprise[],
+  );
   useEffect(() => {
     const filtered = companies.filter((company) =>
-      company.name.toLowerCase().includes(search.toLowerCase())
+      company.name.toLowerCase().includes(search.toLowerCase()),
     );
-    setFilteredCompanies(search !== "" ? filtered : companies);
+    setFilteredCompanies(
+      (search !== "" ? filtered : companies) as Enterprise[],
+    );
   }, [search]);
   return (
     <>
@@ -27,7 +32,7 @@ export default function Companies() {
         </div>
         <hr className="text-secondary/25 my-5" />
         <div className="flex flex-col gap-4">
-          {filteredCompanies.map((company) => (
+          {filteredCompanies.map((company: Enterprise) => (
             <CompanyCard
               key={company.name}
               name={company.name}
