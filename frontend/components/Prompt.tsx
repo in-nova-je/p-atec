@@ -7,7 +7,7 @@ export default function Prompt() {
   const [isStandalone, setIsStandalone] = useState(true);
   const [open, setOpen] = useState(false);
   useEffect(() => {
-    setIsStandalone(window.matchMedia("(display-mode: standalone)").matches);
+    //setIsStandalone(window.matchMedia("(display-mode: standalone)").matches);
   }, []);
   return (
     !isStandalone && (

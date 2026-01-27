@@ -34,5 +34,15 @@ body {
   h2 {
     font-size: var(--text-2xl);
     font-weight: 550;
+    padding-bottom: 1em;
+  }
+  h3 {
+    font-size: var(--text-lg);
+    font-weight: 500;
+  }
+  mark {
+    background-color: #1c9cd8;
+    color: #ffffff;
+    padding: 0 1em;
   }
 }

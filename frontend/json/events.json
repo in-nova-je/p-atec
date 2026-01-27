@@ -1,44 +1,76 @@
 [
   {
-    "title": "Reunião de Planeamento",
-    "dateBegin": "2025-12-31T16:00:00",
-    "dateEnd": "2025-12-31T18:00:00",
-    "location": "Sala de Reuniões A"
+    "title": "Sessão Interativa: Conexões em Curso",
+    "dateBegin": "2026-01-12T19:15:00",
+    "dateEnd": "2026-01-12T22:15:00",
+    "location": "Espaço de Convívio"
   },
   {
-    "title": "Preparação para a Passagem de Ano",
-    "dateBegin": "2025-12-31T18:00:00",
-    "dateEnd": "2025-12-31T22:00:00",
+    "title": "Abertura Oficial & Boas-Vindas",
+    "dateBegin": "2026-01-12T09:30:00",
+    "dateEnd": "2026-01-12T10:30:00",
     "location": "Auditório Principal"
   },
   {
-    "title": "Sessão de Boas-vindas ao Novo Ano",
-    "dateBegin": "2026-01-01T10:30:00",
-    "dateEnd": "2026-01-01T11:30:00",
-    "location": "Auditório Principal"
-  },
-  {
-    "title": "Workshop: Definição de Metas 2026",
-    "dateBegin": "2026-01-01T14:00:00",
-    "dateEnd": "2026-01-01T16:00:00",
-    "location": "Sala 204"
-  },
-  {
-    "title": "Palestra: Tendências Tecnológicas para 2026",
-    "dateBegin": "2026-01-02T09:30:00",
-    "dateEnd": "2026-01-02T10:30:00",
-    "location": "Auditório Principal"
-  },
-  {
-    "title": "Mesa Redonda: Inovação e Futuro",
-    "dateBegin": "2026-01-02T11:00:00",
-    "dateEnd": "2026-01-02T12:30:00",
+    "title": "Painel: Formação Profissional e o Mercado de Trabalho",
+    "dateBegin": "2026-01-12T11:00:00",
+    "dateEnd": "2026-01-12T12:30:00",
     "location": "Sala de Conferências"
   },
   {
-    "title": "Encerramento do Evento",
-    "dateBegin": "2026-01-03T16:00:00",
-    "dateEnd": "2026-01-03T17:00:00",
+    "title": "Almoço de Networking com Parceiros",
+    "dateBegin": "2026-01-12T13:30:00",
+    "dateEnd": "2026-01-12T15:00:00",
+    "location": "Área de Convívio"
+  },
+  {
+    "title": "Workshop: Como Articular Formação e Competências Profissionais",
+    "dateBegin": "2026-01-12T15:30:00",
+    "dateEnd": "2026-01-12T17:00:00",
+    "location": "Sala de Workshops"
+  },
+
+  {
+    "title": "Café com Recrutadores e Parceiros Industriais",
+    "dateBegin": "2026-01-13T09:30:00",
+    "dateEnd": "2026-01-13T11:00:00",
+    "location": "Espaço de Convívio"
+  },
+  {
+    "title": "Carreiras em Tecnologias e Indústria",
+    "dateBegin": "2026-01-13T21:00:00",
+    "dateEnd": "2026-01-13T22:00:00",
+    "location": "Sala de Conferências"
+  },
+  {
+    "title": "Sessão de Troca de Experiências",
+    "dateBegin": "2026-01-13T22:00:00",
+    "dateEnd": "2026-01-13T23:30:00",
+    "location": "Sala de Networking"
+  },
+  {
+    "title": "Happy Hour de Encerramento do Dia",
+    "dateBegin": "2026-01-13T23:00:00",
+    "dateEnd": "2026-01-14T00:00:00",
+    "location": "Terraço Panorâmico"
+  },
+
+  {
+    "title": "Workshops Técnicos por Especialidade",
+    "dateBegin": "2026-01-14T09:30:00",
+    "dateEnd": "2026-01-14T12:00:00",
+    "location": "Salas Multifunções"
+  },
+  {
+    "title": "Mesa de Oportunidades: Formação e Contratos",
+    "dateBegin": "2026-01-14T13:00:00",
+    "dateEnd": "2026-01-14T14:30:00",
+    "location": "Sala de Conferências"
+  },
+  {
+    "title": "Encerramento & Troca de Contactos",
+    "dateBegin": "2026-01-14T15:30:00",
+    "dateEnd": "2026-01-14T17:00:00",
     "location": "Auditório Principal"
   }
 ]

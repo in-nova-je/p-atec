@@ -29,7 +29,7 @@ export default function EventCard({
     <div
       className={`${
         now ? "border-2 border-primary" : "border border-secondary/25"
-      } rounded-xl p-4`}
+      } rounded-xl p-4 shrink-0 snap-start w-full h-fit scroll-m-4`}
     >
       <div
         className={`text-sm ${
@@ -42,7 +42,7 @@ export default function EventCard({
         {now && (
           <div className="w-4 h-4 aspect-square rounded-full bg-primary" />
         )}
-        <h2 className={`mb-2 ${now && "font-bold"}`}>{title}</h2>
+        <h2 className={`mb-2 ${now && "font-bold"} text-left`}>{title}</h2>
       </div>
       <div
         className={`text-sm ${
