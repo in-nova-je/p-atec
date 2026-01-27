@@ -37,6 +37,8 @@ export default function Prompt() {
             Instalar
           </button>
         </div>
+
+         <div className="md:hidden h-18" aria-hidden />  {/*retirar caso nao seja necessario mostrar o logo */}
       </>
     )
   );

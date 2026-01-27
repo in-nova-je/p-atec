@@ -3,6 +3,21 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+    
+  --primary: #1c9cd8;
+  --secondary: #4d4d4f;
+
+  --profile-grad-start: #222289;
+  --profile-grad-end: #1c9cd8;
+
+  --profile-title: rgba(217, 217, 217, 0.62); /* D9D9D9 a 62% */
+
+  --level-bg: #eff6ff;        /* pill fundo */
+  --level-text: #1447e6;      /* texto */
+  --level-icon: #155dfc;      /* ícone */
+
+  --interest-bg: rgba(224, 231, 255, 0.20); /* E0E7FF a 20% */
+  --interest-text: #222289;                 /* texto cards */
 }
 
 @theme inline {
@@ -15,7 +30,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #ededed;
+    --background: #ffffff;
+    --foreground: #171717;
     --primary: #1c9cd8;
     --secondary: #4d4d4f;
   }
