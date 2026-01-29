@@ -26,12 +26,12 @@ public class UserService implements IUserService {
     }
     // Create user
     @Transactional //when should i use it ? (makes the methos calles atomic)
-    public UserDTO createUser(String name, int level, String password) {
+    public UserDTO createUser(String name, int level, String password,String email) {
 
         //for conditions use a method validator to go allong the solid principles
-        User user = new User(name, level,passwordEncoder.encode(password));//hashing
+        User user = new User(name, level,passwordEncoder.encode(password),email,IsStudentOrNot(email));//hashing
         var saved = userRepository.save(user);
-        return new UserDTO(saved.getId(), saved.getName(), saved.getLevel());
+        return new UserDTO(saved.getId(), saved.getName(), saved.getLevel(), saved.getEmail(), saved.getisStudent());
     }
     // Get user by ID
     public UserDTO getUserById(Long id) {
@@ -39,21 +39,21 @@ public class UserService implements IUserService {
                 .orElse(null);
 
         assert result != null;
-        return new UserDTO(result.getId(), result.getName(), result.getLevel());
+        return new UserDTO(result.getId(), result.getName(), result.getLevel(),result.getEmail(), result.getisStudent());
     }
 
     public UserDTO getUserByName(String name) {
        try {
            var user = userRepository.findByName(name);
-           return new UserDTO(user.getId(), user.getName(), user.getLevel());
+           return new UserDTO(user.getId(), user.getName(), user.getLevel(), user.getEmail(), user.getisStudent());
        }catch (Exception e) {return null; }
 
     }
     //updates user fields
-    public UserDTO updateUser(Long id, String name, int level) {
-        User updatedUser= new User(id, name, level,null);
+    public UserDTO updateUser(Long id, String name, int level,String email) {
+        User updatedUser= new User(id, name, level,null,email,IsStudentOrNot(email));
         User saved=userRepository.save(updatedUser);
-        return new UserDTO(saved.getId(),saved.getName(),saved.getLevel());
+        return new UserDTO(saved.getId(),saved.getName(),saved.getLevel(),saved.getEmail(),saved.getisStudent());
     }
     //confirms that user password is correct
     public boolean ConfirmPassword(String name, String password) {//no futuro vai ser hash da password
@@ -65,12 +65,16 @@ public class UserService implements IUserService {
         Page<User> page = userRepository.findAll(PageRequest.of(pageNumber, pageSize));
         List<User> users = page.getContent();
         List<UserDTO> userDTOs=new ArrayList<>();
-        users.forEach(user -> userDTOs.add(new UserDTO(user.getId(), user.getName(), user.getLevel())));
+        users.forEach(user -> userDTOs.add(new UserDTO(user.getId(), user.getName(), user.getLevel(), user.getEmail(), user.getisStudent())));
         return userDTOs;
     }
 
     public void DeleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public boolean IsStudentOrNot(String email) {
+        return email.contains("@atec.pt");
     }
 }
 

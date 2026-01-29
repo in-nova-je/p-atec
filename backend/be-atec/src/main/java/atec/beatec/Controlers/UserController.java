@@ -60,13 +60,13 @@ public class UserController {
      * @return
      */
     @PutMapping("/{id}") // post criar put ou patch alterar
-    public ResponseEntity<?> AlterById(@PathVariable Long id, @RequestParam String name, @RequestParam int level) {
+    public ResponseEntity<?> AlterById(@PathVariable Long id, @RequestParam String name, @RequestParam int level, @RequestParam String email) {
         UserDTO user = userService.getUserById(id);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
 
-        UserDTO updateUser = userService.updateUser(id, name, level);
+        UserDTO updateUser = userService.updateUser(id, name, level,email);
         return ResponseEntity.ok(updateUser);
     }
 
@@ -88,7 +88,7 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
 
-        UserDTO updateUser = userService.updateUser(id, name, user.getLevel());
+        UserDTO updateUser = userService.updateUser(id, name, user.getLevel(),user.getEmail());
         return ResponseEntity.ok(updateUser);
     }
 
@@ -107,7 +107,7 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
 
-        UserDTO updateUser = userService.updateUser(id, user.getName(),level);
+        UserDTO updateUser = userService.updateUser(id, user.getName(),level, user.getEmail());
         return ResponseEntity.ok(updateUser);
     }
 

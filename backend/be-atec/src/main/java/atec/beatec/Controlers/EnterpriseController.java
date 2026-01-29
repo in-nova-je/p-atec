@@ -147,7 +147,7 @@ public class EnterpriseController {
      * @return all given users in a given page
      */
     @GetMapping
-    public ResponseEntity<?> getAllUsers(@RequestParam int pageSize,@RequestParam int pageNumber) {
+    public ResponseEntity<?> getAllEnterprises(@RequestParam int pageSize,@RequestParam int pageNumber) {
         List<Enterprise> allEnterprises= EnterpriseService.ListAllEnterprises(pageSize,pageNumber);
         if(allEnterprises.isEmpty())
         {

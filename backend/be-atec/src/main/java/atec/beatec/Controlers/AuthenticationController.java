@@ -36,11 +36,11 @@ public class AuthenticationController {
      * @return ResponseEntity with the created User and HTTP status
      */
     @PostMapping("/register")
-    public ResponseEntity<?> createUser(@RequestParam String name, @RequestParam int level, @RequestParam String password) {
+    public ResponseEntity<?> createUser(@RequestParam String name, @RequestParam int level, @RequestParam String password,@RequestParam String email) {
         if (userService.getUserByName(name) != null) {
             return new ResponseEntity<>("User already exists", HttpStatus.CONFLICT);
         }
-        var createdUser = userService.createUser(name, level, password);
+        var createdUser = userService.createUser(name, level, password,email);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
     @PostMapping("/login")

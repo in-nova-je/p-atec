@@ -15,10 +15,17 @@ public class User {
     @Column(nullable = false)
     private final int level;
 
+    @Column(nullable = false , columnDefinition = "varchar(255) default ''")//tirar isto depois de apagar users tds
+    private final String email;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")//tirar isto depois de apagar users tds
+    private boolean isStudent;
 
     @SuppressWarnings("unused")
     @Column(nullable = false)
     private final String password; // store hashed password
+
+    
 
 
     /**
@@ -28,6 +35,8 @@ public class User {
     protected User() {
         this.name = null;
         this.password = null;
+        this.email = null;
+        this.isStudent = false;
         this.level = 0;
     }
 
@@ -38,9 +47,11 @@ public class User {
      * @param password The user's password (hashed)
      */
 
-    public User(String name, int level, String password) {
+    public User(String name, int level, String password,String email, boolean isStudent) {
         this.name = name;
         this.level = level;
+        this.email = email;
+        this.isStudent = isStudent;
         this.password = password;
     }
 
@@ -53,10 +64,12 @@ public class User {
      * @param level the users level
      * @param password   The user's password (hashed)
      */
-    public User(long id,String name, int level, String password) {
+    public User(long id,String name, int level, String password,String email, boolean isStudent) {
         this.id = id;
         this.name = name;
         this.level = level;
+        this.email = email;
+        this.isStudent = isStudent;
         this.password = password;
     }
 
@@ -87,6 +100,16 @@ public class User {
      gets user password
      */
     public String getPassword() {return password;}
+    /**
+     gets user email
+     */
+    public String getEmail() {return email;}
+    /**
+     gets user isStudent value(that dictates if the user is a student or not )
+     */
+    public boolean getisStudent() {return isStudent;}
+
+
 
 
 

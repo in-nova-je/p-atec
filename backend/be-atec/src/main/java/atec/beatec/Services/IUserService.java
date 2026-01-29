@@ -23,7 +23,7 @@ public interface IUserService {
      * @return The updated User entity.
      */
 
-    UserDTO updateUser(Long id, String name, int level);
+    UserDTO updateUser(Long id, String name, int level,String email);
 
     /**
      * Creates a new User with the given name.
@@ -35,7 +35,7 @@ public interface IUserService {
      * @return The created User entity.
      */
 
-    UserDTO createUser(String name, int level, String password);
+    UserDTO createUser(String name, int level, String password,String email);
 
     /**
      * Retrieves a User by its unique ID.
@@ -74,6 +74,9 @@ public interface IUserService {
      * @param id
      */
     void DeleteUser(Long id);
+
+
+    public boolean IsStudentOrNot(String email);
 }
 
 
