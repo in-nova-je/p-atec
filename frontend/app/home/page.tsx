@@ -39,7 +39,7 @@ export default function Home() {
   const filteredEvents = parseEvents(events).filter(
     (event) =>
       !hasEventEnded(new Date(), event.dateEnd) &&
-      event.dateBegin.getDay() === new Date().getDay()
+      event.dateBegin.getDay() === new Date().getDay(),
   );
   return (
     <div className="flex h-screen justify-center font-sans">
@@ -63,7 +63,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className="mt-34 px-4 text-justify w-screen flex flex-col items-center">
+      <div className="mt-50 px-4 text-justify w-screen flex flex-col items-center">
         <h2 className="text-primary">20ª Feira Empresarial</h2>
         <h3 className="mb-4 self-baseline">Sobre</h3>
         <p className="text-sm text-secondary">

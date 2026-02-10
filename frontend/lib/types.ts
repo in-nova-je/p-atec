@@ -16,7 +16,7 @@ export type Enterprise = {
   name: string;
   logoPath: string;
   description: string;
-  fieldsOfInterest: string[];
+  fieldsOfInterest?: string[];
   websiteUrl?: string;
 };
 

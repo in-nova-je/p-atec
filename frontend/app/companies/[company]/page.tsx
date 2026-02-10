@@ -1,7 +1,7 @@
 "use client";
 
 import companies from "@/json/companies.json";
-import { type Company, DEFAULT_COMPANY } from "@/lib/types";
+import { type Enterprise, DEFAULT_ENTERPRISE } from "@/lib/types";
 import { use, useEffect, useState } from "react";
 import { Vibrant } from "node-vibrant/browser";
 import FloatingButton from "@/components/FloatingButton";
@@ -13,8 +13,8 @@ export default function Company({
   params: Promise<{ company: string }>;
 }) {
   const { company } = use(params);
-  const companyData: Company =
-    companies.find((c) => c.name === company) ?? DEFAULT_COMPANY;
+  const companyData: Enterprise =
+    companies.find((c) => c.name === company) ?? DEFAULT_ENTERPRISE;
 
   const [color, setColor] = useState<string>();
   useEffect(() => {

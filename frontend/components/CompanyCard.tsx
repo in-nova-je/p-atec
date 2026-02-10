@@ -23,7 +23,7 @@ export default function CompanyCard({
         className="h-full aspect-square rounded-xl"
       />
       <div>
-        <h2 className="text-bold">{name}</h2>
+        <p className="font-semibold text-xl mb-2">{name}</p>
         <p className="text-ellipsis line-clamp-2 text-sm text-secondary">
           {description}
         </p>
