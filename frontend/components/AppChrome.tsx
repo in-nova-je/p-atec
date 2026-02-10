@@ -15,9 +15,7 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
       <Prompt />
       {!hideLogo && <Logo />}
 
-      <div className="flex justify-center max-w-3xl w-full h-full">
-        {children}
-      </div>
+      <div className="flex justify-center w-full h-full">{children}</div>
 
       <Navbar />
     </>

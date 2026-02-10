@@ -2,16 +2,26 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { IconSchool, IconChevronDown } from "@tabler/icons-react";import Button from "@/components/Button";
+import { IconSchool, IconChevronDown, IconHeart } from "@tabler/icons-react";
+import Button from "@/components/Button";
 import AvatarBase from "@/components/profile/AvatarBase";
 import AvatarAction from "@/components/profile/AvatarAction";
 import { useRouter } from "next/navigation";
 
 const LEVELS = [3, 4];
+const INTERESTS = [
+  "Inteligência Artificial",
+  "Desenvolvimento Web",
+  "Ciência de Dados",
+  "Segurança Informática",
+  "Redes de Computadores",
+  "Sistemas Operativos",
+];
 
 export default function EditProfile() {
   const [name, setName] = useState("");
   const [level, setLevel] = useState<number | "">("");
+  const [interest, setInterest] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState("");
   const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
@@ -42,7 +52,7 @@ export default function EditProfile() {
   }
 
   return (
-    <main className="min-h-dvh bg-background pb-28 font-sans">
+    <main className="min-h-dvh w-full bg-background pb-28 font-sans">
       <header className="h-44 w-full bg-[linear-gradient(90deg,#222289_0%,#1C9CD8_98%)]">
         <div className="mx-auto max-w-3xl px-6 pt-10 text-center">
           <h1 className="text-2xl font-semibold text-[#D9D9D9]/60">Perfil</h1>
@@ -55,10 +65,7 @@ export default function EditProfile() {
           <div className="relative">
             <AvatarBase src={avatarSrc} />
 
-            <AvatarAction
-              variant="camera"
-              onFileSelected={setPreview}
-            />
+            <AvatarAction variant="camera" onFileSelected={setPreview} />
           </div>
 
           <p className="mt-6 text-xs text-secondary">
@@ -88,7 +95,11 @@ export default function EditProfile() {
                 <IconSchool className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-secondary/90" />
                 <select
                   value={level}
-                  onChange={(e) => setLevel(e.target.value === "" ? "" : Number(e.target.value))}
+                  onChange={(e) =>
+                    setLevel(
+                      e.target.value === "" ? "" : Number(e.target.value),
+                    )
+                  }
                   className="w-full appearance-none rounded-xl border border-secondary/25 bg-white
                             px-3 py-2 pl-9 pr-9 text-sm font-normal
                             focus:outline-none focus:ring-2 focus:ring-primary"
@@ -112,49 +123,31 @@ export default function EditProfile() {
             {/* Áreas de interesse */}
             <div>
               <label className="block text-xs font-semibold text-foreground">
-                Áreas de Interesse
+                Área de Interesse
               </label>
 
-              <div className="mt-3 rounded-xl border border-secondary/25 p-3">
-                {tags.length === 0 ? (
-                  <p className="text-sm text-secondary">
-                    Ainda não adicionaste áreas de interesse.
-                  </p>
-                ) : (
-                  <div className="flex flex-wrap gap-2">
-                    {tags.map((t) => (
-                      <button
-                        key={t}
-                        type="button"
-                        onClick={() => removeTag(t)}
-                        className="rounded-xl px-3 py-2 text-xs font-medium bg-[rgba(224,231,255,0.20)] text-[#222289] border border-transparent hover:border-secondary/25 transition"
-                        aria-label={`Remover ${t}`}
-                      >
-                        {t} <span className="ml-1 opacity-60">×</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <div className="mt-3 flex gap-2">
-                <input
-                  value={newTag}
-                  onChange={(e) => setNewTag(e.target.value)}
-                  className="flex-1 rounded-xl border border-secondary/25 px-3 py-2 text-sm bg-white
-                             focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Adicionar nova área"
-                />
-                <button
-                  type="button"
-                  onClick={addTag}
-                  disabled={!canAdd}
-                  className="w-11 rounded-xl border border-secondary/25 bg-white text-xl
-                             hover:bg-secondary/5 disabled:opacity-40 disabled:cursor-not-allowed"
-                  aria-label="Adicionar"
+              <div className="mt-2 relative">
+                <IconHeart className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-secondary/90" />
+                <select
+                  value={interest}
+                  onChange={(e) => setInterest(e.target.value)}
+                  className="w-full appearance-none rounded-xl border border-secondary/25 bg-white
+                            px-3 py-2 pl-9 pr-9 text-sm font-normal
+                            focus:outline-none focus:ring-2 focus:ring-primary"
                 >
-                  +
-                </button>
+                  <option value="" disabled>
+                    Interesse
+                  </option>
+
+                  {INTERESTS.map((interest) => (
+                    <option key={interest} value={interest}>
+                      {interest}
+                    </option>
+                  ))}
+                </select>
+                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-secondary/50">
+                  ▾
+                </span>
               </div>
             </div>
 
