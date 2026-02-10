@@ -10,7 +10,7 @@ export default function Profile() {
   };
 
   return (
-    <main className="min-h-dvh bg-background pb-28 font-sans">
+    <main className="min-h-dvh bg-background pb-28 font-sans w-full">
       <header className="h-44 w-full bg-[linear-gradient(90deg,#222289_0%,#1C9CD8_98%)]">
         <div className="mx-auto max-w-3xl px-6 pt-10 text-center">
           <h1 className="text-2xl font-semibold text-[#D9D9D9]/60">Perfil</h1>
@@ -37,7 +37,10 @@ export default function Profile() {
             }}
           >
             <IconSchool size={16} stroke={2} color="#155DFC" />
-            <span className="text-base font-medium" style={{ color: "#1447E6" }}>
+            <span
+              className="text-base font-medium"
+              style={{ color: "#1447E6" }}
+            >
               {user.level ? `Nível ${user.level}` : "Nível"}
             </span>
           </div>
@@ -45,7 +48,9 @@ export default function Profile() {
           <div className="mt-10 w-full">
             <div className="flex items-center gap-2">
               <IconBook className="text-secondary" size={18} />
-              <h2 className="text-sm font-medium text-foreground">Áreas de Interesse</h2>
+              <h2 className="text-sm font-medium text-foreground">
+                Áreas de Interesse
+              </h2>
             </div>
 
             {user.interests.length === 0 ? (
@@ -58,7 +63,10 @@ export default function Profile() {
                   <div
                     key={t}
                     className="rounded-xl px-4 py-3 text-center text-sm font-semibold"
-                    style={{ backgroundColor: "rgba(224,231,255,0.20)", color: "#222289" }}
+                    style={{
+                      backgroundColor: "rgba(224,231,255,0.20)",
+                      color: "#222289",
+                    }}
                   >
                     {t}
                   </div>

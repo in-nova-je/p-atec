@@ -35,16 +35,17 @@ const pages = [
 export default function Navbar() {
   const path = usePathname();
   const pathIdx = pages.findIndex((page) => path.startsWith(page.href));
-
   return (
     <div className="fixed flex justify-center bottom-0 w-screen p-4 font-sans">
       <div className="bg-secondary/25 flex w-full md:w-md p-2 rounded-[14px] relative backdrop-blur-sm">
-        <div
-          className="inset-2 w-[calc(25%-4px)] box-content bg-background absolute rounded-md ease-in-out duration-100 transition-all"
-          style={{
-            transform: `translate(calc(100%*${pathIdx}))`,
-          }}
-        ></div>
+        {pathIdx > 0 && (
+          <div
+            className="inset-2 w-[calc(25%-4px)] box-content bg-background absolute rounded-md ease-in-out duration-100 transition-all"
+            style={{
+              transform: `translate(calc(100%*${pathIdx}))`,
+            }}
+          />
+        )}
         {pages.map((page) => {
           return (
             <Link

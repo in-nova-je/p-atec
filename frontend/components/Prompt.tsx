@@ -7,13 +7,13 @@ export default function Prompt() {
   const [isStandalone, setIsStandalone] = useState(true);
   const [open, setOpen] = useState(false);
   useEffect(() => {
-    //setIsStandalone(window.matchMedia("(display-mode: standalone)").matches);
+    setIsStandalone(window.matchMedia("(display-mode: standalone)").matches);
   }, []);
   return (
     !isStandalone && (
       <>
         {open && <PromptSteps setOpen={setOpen} />}
-        <div className="md:hidden fixed w-full flex justify-between top-0 border-b border-secondary/25 h-18 p-4 gap-2 font-sans bg-background">
+        <div className="md:hidden fixed w-full flex justify-between top-0 border-b border-secondary/25 h-18 p-4 gap-2 font-sans bg-background z-50">
           <div className="flex gap-2 items-center">
             <div className="h-full aspect-square p-2 border border-secondary/25 rounded-xl mt-1">
               <Image
@@ -37,8 +37,6 @@ export default function Prompt() {
             Instalar
           </button>
         </div>
-
-         <div className="md:hidden h-18" aria-hidden />  {/*retirar caso nao seja necessario mostrar o logo */}
       </>
     )
   );
