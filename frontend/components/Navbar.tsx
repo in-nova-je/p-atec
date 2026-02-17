@@ -36,7 +36,10 @@ export default function Navbar() {
   const path = usePathname();
   const pathIdx = pages.findIndex((page) => path.startsWith(page.href));
   return (
-    <div className="fixed flex justify-center bottom-0 w-screen p-4 font-sans">
+    <div className="fixed bottom-0 left-0 right-0 z-40 flex w-screen justify-center font-sans"
+      style={{ height: "calc(var(--navbar-h) + env(safe-area-inset-bottom))" }}
+    >
+      <div className="w-full px-4 pb-[calc(16px+env(safe-area-inset-bottom))] pt-4 flex justify-center">
       <div className="bg-secondary/25 flex w-full md:w-md p-2 rounded-[14px] relative backdrop-blur-sm">
         {pathIdx > 0 && (
           <div
@@ -67,6 +70,7 @@ export default function Navbar() {
             </Link>
           );
         })}
+        </div>
       </div>
     </div>
   );

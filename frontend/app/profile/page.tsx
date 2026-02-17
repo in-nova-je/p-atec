@@ -8,6 +8,7 @@ export default function Profile() {
     level: null as number | null,
     interests: [] as string[],
   };
+  
 
   return (
     <main className="min-h-dvh bg-background pb-28 font-sans w-full">
