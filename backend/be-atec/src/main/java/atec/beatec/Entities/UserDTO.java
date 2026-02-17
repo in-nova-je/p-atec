@@ -6,13 +6,15 @@ public class UserDTO {
     private final int level;
     private final String email;
     private final boolean isStudent;
+    private final String FieldsOfInterest;
 
-    public UserDTO(Long id, String name, int level,String email, boolean isStudent) {
+    public UserDTO(Long id, String name, int level,String email, boolean isStudent,String fieldsOfInterest) {
         this.id = id;
         this.name = name;
         this.level = level;
         this.email = email;
         this.isStudent = isStudent;
+        this.FieldsOfInterest=fieldsOfInterest;
     }
 
     // --------------------
@@ -44,4 +46,7 @@ public class UserDTO {
      gets user isStudent value(that dictates if the user is a student or not )
      */
     public boolean isStudent() {return isStudent;}
+
+    public String getFieldsOfInterest() {return FieldsOfInterest;}
+
 }

@@ -20,21 +20,35 @@ public class EnterpriseController {
 
 
     @PostMapping
-    public ResponseEntity<?> createEnterprise( @RequestParam String name,@RequestParam String Description, @RequestParam List<String> FieldsOfInterest,@RequestParam String Websitelink) {
-        if (EnterpriseService.getEnterpriseByName(name) != null) {
+    public ResponseEntity<?> createEnterprise( @RequestParam String name,@RequestParam String Description,@RequestParam String Websitelink) {
+
+        /*if (EnterpriseService.getEnterpriseByName(name) != null) {
             return new ResponseEntity<>("Enterprise already exists", HttpStatus.CONFLICT);
         }
-        Enterprise enterprise=EnterpriseService.createEnterprise(name,Description,FieldsOfInterest,Websitelink);
+        Enterprise enterprise=EnterpriseService.createEnterprise(name,Description,Websitelink);
         return new ResponseEntity<>(enterprise, HttpStatus.CREATED);
+        */
+         // Verificar se já existe
+        if (EnterpriseService.existsByName(name)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+        Enterprise enterprise = EnterpriseService.createEnterprise(
+                name, Description, Websitelink);
+        return ResponseEntity.status(HttpStatus.CREATED).body(enterprise);
     }
 
     @GetMapping("/{id}")  //done
     public ResponseEntity<?> getById(@PathVariable Long id) {
-        var Enterprise = EnterpriseService.getEnterpriseById(id);
-        if (Enterprise == null) {
+        /*
+        try {
+            Enterprise Enterprise = EnterpriseService.getEnterpriseById(id);
+            return ResponseEntity.ok(Enterprise);
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(Enterprise);
+        */
+        Enterprise enterprise = EnterpriseService.getEnterpriseById(id);
+        return ResponseEntity.ok(enterprise);
     }
 
     /**
@@ -45,11 +59,15 @@ public class EnterpriseController {
      */
     @GetMapping("/by-name")
     public ResponseEntity<?> getAllByName(@RequestParam String name) {
+        /*
         var Enterprise = EnterpriseService.getEnterpriseByName(name); // dar handle de se correr mal
         if (Enterprise == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(Enterprise);
+        */
+        Enterprise enterprise = EnterpriseService.getEnterpriseByName(name);
+        return ResponseEntity.ok(enterprise);
     }
 
     /**
@@ -57,18 +75,14 @@ public class EnterpriseController {
      * @param id
      * @param name
      * @param Description
-     * @param FieldsOfInterest
      * @param Websitelink
      * @return
      */
     @PutMapping("/{id}") //
-    public ResponseEntity<?> AlterByIdEnterprise(@PathVariable Long id, @RequestParam String name,String Description, @RequestParam List<String> FieldsOfInterest,@RequestParam String Websitelink) {
-        var Enterprise = EnterpriseService.getEnterpriseById(id);
-        if (Enterprise == null) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<?> AlterByIdEnterprise(@PathVariable Long id, @RequestParam String name,String Description,@RequestParam String Websitelink) {
 
-        Enterprise updatedEnterprise = EnterpriseService.updateEnterprise(id,name,Description,FieldsOfInterest,Websitelink);
+        Enterprise updatedEnterprise = EnterpriseService.updateEnterprise(
+                id, name, Description, Websitelink);
         return ResponseEntity.ok(updatedEnterprise);
     }
 
@@ -80,12 +94,10 @@ public class EnterpriseController {
      */
     @PutMapping("name/{id}")
     public ResponseEntity<?> AlterByIdNameEnterprise(@PathVariable Long id, @RequestParam String name) {
-        Enterprise enterprise = EnterpriseService.getEnterpriseById(id);
-        if (enterprise == null) {
-            return ResponseEntity.notFound().build();
-        }
 
-        Enterprise updatedEnterprise = EnterpriseService.updateEnterprise(id,name,enterprise.getDescription(),enterprise.getFieldsOfInterest(),enterprise.getWebsiteLink());
+        Enterprise enterprise = EnterpriseService.getEnterpriseById(id);
+        Enterprise updatedEnterprise = EnterpriseService.updateEnterprise(
+                id, name, enterprise.getDescription(), enterprise.getWebsiteLink());
         return ResponseEntity.ok(updatedEnterprise);
     }
 
@@ -97,12 +109,12 @@ public class EnterpriseController {
      */
     @PutMapping("description/{name}")
     public ResponseEntity<?> AlterByIdDescription(@PathVariable String name, @RequestParam String Description) {
-        Enterprise enterprise = EnterpriseService.getEnterpriseByName(name);
-        if (enterprise == null) {
-            return ResponseEntity.notFound().build();
-        }
 
-        Enterprise updatedEnterprise = EnterpriseService.updateEnterprise(enterprise.getId(), enterprise.getName(),Description,enterprise.getFieldsOfInterest(),enterprise.getWebsiteLink());
+
+        Enterprise enterprise = EnterpriseService.getEnterpriseByName(name);
+        Enterprise updatedEnterprise = EnterpriseService.updateEnterprise(
+                enterprise.getId(), enterprise.getName(), Description,
+                 enterprise.getWebsiteLink());
         return ResponseEntity.ok(updatedEnterprise);
     }
 
@@ -114,31 +126,15 @@ public class EnterpriseController {
      */
     @PutMapping("websitelink/{name}")
     public ResponseEntity<?> AlterByIdWebsiteLink(@PathVariable String name, @RequestParam String WebsiteLink) {
-        Enterprise enterprise = EnterpriseService.getEnterpriseByName(name);
-        if (enterprise == null) {
-            return ResponseEntity.notFound().build();
-        }
 
-        Enterprise updatedEnterprise = EnterpriseService.updateEnterprise(enterprise.getId(), enterprise.getName(),enterprise.getDescription(),enterprise.getFieldsOfInterest(),WebsiteLink);
+        Enterprise enterprise = EnterpriseService.getEnterpriseByName(name);
+        Enterprise updatedEnterprise = EnterpriseService.updateEnterprise(
+                enterprise.getId(), enterprise.getName(), enterprise.getDescription(),
+                 WebsiteLink);
         return ResponseEntity.ok(updatedEnterprise);
     }
 
-    /**
-     * updates fields of interest
-     * @param name
-     * @param FieldsOfInterest
-     * @return
-     */
-    @PutMapping("FieldsOfInterest/{name}")
-    public ResponseEntity<?> AlterByIdWebsiteLink(@PathVariable String name, @RequestParam List<String> FieldsOfInterest) {
-        Enterprise enterprise = EnterpriseService.getEnterpriseByName(name);
-        if (enterprise == null) {
-            return ResponseEntity.notFound().build();
-        }
 
-        Enterprise updatedEnterprise = EnterpriseService.updateEnterprise(enterprise.getId(), enterprise.getName(),enterprise.getDescription(),FieldsOfInterest, enterprise.getWebsiteLink());
-        return ResponseEntity.ok(updatedEnterprise);
-    }
 
     /**
      *
@@ -147,7 +143,7 @@ public class EnterpriseController {
      * @return all given users in a given page
      */
     @GetMapping
-    public ResponseEntity<?> getAllEnterprises(@RequestParam int pageSize,@RequestParam int pageNumber) {
+    public ResponseEntity<?> getAllEnterprises(@RequestParam(defaultValue = "10") int pageSize,@RequestParam(defaultValue = "0") int pageNumber) {
         List<Enterprise> allEnterprises= EnterpriseService.ListAllEnterprises(pageSize,pageNumber);
         if(allEnterprises.isEmpty())
         {
@@ -163,11 +159,17 @@ public class EnterpriseController {
      */
     @DeleteMapping
     public ResponseEntity<?> deleteByIdEnterprise(@RequestParam Long id) {
-        var Enterprise = EnterpriseService.getEnterpriseById(id);
-        if (Enterprise == null) {
-            return ResponseEntity.notFound().build();
+        /*try {
+            var Enterprise = EnterpriseService.getEnterpriseById(id);
+            EnterpriseService.DeleteEnterprise(id);
+            return ResponseEntity.ok("deleted");
         }
+        catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }*/
         EnterpriseService.DeleteEnterprise(id);
-        return ResponseEntity.ok("deleted");
+        return ResponseEntity.noContent().build();
     }
+
+
 }

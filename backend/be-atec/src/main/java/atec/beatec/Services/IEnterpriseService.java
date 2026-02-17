@@ -10,23 +10,21 @@ public interface IEnterpriseService {
      *
      * @param name The name of the Enterprise to update.
      * @param id The id of Enterprise to update.
-     * @param FieldsOfInterest The level of the Enterprise to update.
      * @param Websitelink The level of the Enterprise to update.
      * @return The updated Enterprise entity.
      */
 
-    Enterprise updateEnterprise(Long id, String name,String Description, List<String>FieldsOfInterest, String Websitelink);
+    Enterprise updateEnterprise(Long id, String name,String Description, String Websitelink);
 
     /**
      * Creates a Enterprise details with the given name.
      *
      * @param name The name of the Enterprise to update.
-     * @param FieldsOfInterest The level of the Enterprise to update.
      * @param Websitelink The level of the Enterprise to update.
      * @return The Created Enterprise entity.
      */
 
-    public Enterprise createEnterprise( String name,String Description,List<String> FieldsOfInterest,String Websitelink);
+    public Enterprise createEnterprise( String name,String Description,String Websitelink);
     /**
      * Retrieves a Enterprise by its unique ID.
      *
@@ -57,4 +55,7 @@ public interface IEnterpriseService {
      * @param id
      */
     void DeleteEnterprise(Long id);
+
+
+    public boolean existsByName(String name);
 }

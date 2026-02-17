@@ -23,7 +23,7 @@ public interface IUserService {
      * @return The updated User entity.
      */
 
-    UserDTO updateUser(Long id, String name, int level,String email);
+    UserDTO updateUser(Long id, String name, int level,String email,String FieldsOfInterest);
 
     /**
      * Creates a new User with the given name.
@@ -35,7 +35,7 @@ public interface IUserService {
      * @return The created User entity.
      */
 
-    UserDTO createUser(String name, int level, String password,String email);
+    UserDTO createUser(String name, int level, String password,String email,String FieldsOfInterest);
 
     /**
      * Retrieves a User by its unique ID.
@@ -61,6 +61,8 @@ public interface IUserService {
 
     boolean ConfirmPassword(String name,String password );
 
+
+    UserDTO getUserByEmail(String email);
     /**
      * list all Users in page with a given dimension
      * @param pageSize

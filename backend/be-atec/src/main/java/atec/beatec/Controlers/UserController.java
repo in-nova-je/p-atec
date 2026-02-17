@@ -2,6 +2,7 @@
 package atec.beatec.Controlers;
 import atec.beatec.Entities.UserDTO;
 import atec.beatec.Services.IUserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,11 +31,16 @@ public class UserController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        var user = userService.getUserById(id);
-        if (user == null) {
+        /*
+        try {
+            var user = userService.getUserById(id);
+            return ResponseEntity.ok(user);
+        }catch(Exception e) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(user);
+        *
+         */
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
     /**
@@ -45,11 +51,15 @@ public class UserController {
      */
     @GetMapping("/by-name")
     public ResponseEntity<?> getAllUsersByName(@RequestParam String name) {
+        /*
         var user = userService.getUserByName(name);
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(user);
+        */
+        return ResponseEntity.ok(userService.getUserByName(name));
+
     }
 
     /**
@@ -60,14 +70,17 @@ public class UserController {
      * @return
      */
     @PutMapping("/{id}") // post criar put ou patch alterar
-    public ResponseEntity<?> AlterById(@PathVariable Long id, @RequestParam String name, @RequestParam int level, @RequestParam String email) {
-        UserDTO user = userService.getUserById(id);
-        if (user == null) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<?> AlterById(@PathVariable Long id, @RequestParam String name, @RequestParam int level, @RequestParam String email,@RequestParam String FieldsOfInterest) {
+        /*try {
+            UserDTO user = userService.getUserById(id);
+            UserDTO updateUser = userService.updateUser(id, name, level, email);
+            return ResponseEntity.ok(updateUser);
         }
-
-        UserDTO updateUser = userService.updateUser(id, name, level,email);
-        return ResponseEntity.ok(updateUser);
+        catch(Exception e) {
+            return ResponseEntity.notFound().build();
+        }*/
+        UserDTO updatedUser = userService.updateUser(id, name, level, email,FieldsOfInterest);
+        return ResponseEntity.ok(updatedUser);
     }
 
     /**
@@ -78,18 +91,17 @@ public class UserController {
      */
     @PutMapping("name/{id}") // post criar put ou patch alterar
     public ResponseEntity<?> AlterByIdname(@PathVariable Long id, @RequestParam String name) {
-        UserDTO user = userService.getUserById(id);
-        UserDTO namecheck= userService.getUserByName(name);
-        if(!(namecheck==null))
-        {
-            return ResponseEntity.notFound().build(); // not allowed
-        }
-        if (user == null) {
-            return ResponseEntity.notFound().build();
+
+        try {
+            userService.getUserByName(name);
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (Exception e) {
+            // Nome disponível
         }
 
-        UserDTO updateUser = userService.updateUser(id, name, user.getLevel(),user.getEmail());
-        return ResponseEntity.ok(updateUser);
+        UserDTO user = userService.getUserById(id);
+        UserDTO updatedUser = userService.updateUser(id, name, user.getLevel(), user.getEmail(), user.getFieldsOfInterest());
+        return ResponseEntity.ok(updatedUser);
     }
 
     /**
@@ -100,15 +112,16 @@ public class UserController {
      */
     @PutMapping("level/{id}") // post criar put ou patch alterar
     public ResponseEntity<?> AlterByIdlevel(@PathVariable Long id, @RequestParam int level) {
-        UserDTO user = userService.getUserById(id);
-
-
-        if (user == null) {
+        /*try {
+            UserDTO user = userService.getUserById(id);
+            UserDTO updateUser = userService.updateUser(id, user.getName(), level, user.getEmail());
+            return ResponseEntity.ok(updateUser);
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
-        }
-
-        UserDTO updateUser = userService.updateUser(id, user.getName(),level, user.getEmail());
-        return ResponseEntity.ok(updateUser);
+        }*/
+        UserDTO user = userService.getUserById(id);
+        UserDTO updatedUser = userService.updateUser(id, user.getName(), level, user.getEmail(), user.getFieldsOfInterest());
+        return ResponseEntity.ok(updatedUser);
     }
 
 
@@ -120,7 +133,7 @@ public class UserController {
      */
     @GetMapping
     public ResponseEntity<?> getAllUsers(@RequestParam int pageSize,@RequestParam int pageNumber) {
-        List<UserDTO> allusers= userService.ListAllUsers(pageSize,pageNumber);
+        /*List<UserDTO> allusers= userService.ListAllUsers(pageSize,pageNumber);
         if(allusers.size()==0)
         {
             return ResponseEntity.noContent().build();
@@ -130,6 +143,15 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(allusers);
+
+         */
+        List<UserDTO> users = userService.ListAllUsers(pageSize, pageNumber);
+
+        if (users.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(users);
     }
 
     /**
@@ -139,12 +161,23 @@ public class UserController {
      */
     @DeleteMapping
     public ResponseEntity<?> deleteById(@RequestParam Long id) {
-        var user = userService.getUserById(id);
-        if (user == null) {
+        /*
+        try{
+            var user = userService.getUserById(id);
+            userService.DeleteUser(id);
+            return ResponseEntity.ok("deleted");
+        }
+        catch(Exception e)
+        {
             return ResponseEntity.notFound().build();
         }
-        userService.DeleteUser(id);
-        return ResponseEntity.ok("deleted");
-    }
+
+         */
+            userService.DeleteUser(id);
+            return ResponseEntity.noContent().build();
+        }
+
+
+
 
 }

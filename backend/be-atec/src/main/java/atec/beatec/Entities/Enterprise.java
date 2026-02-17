@@ -17,10 +17,7 @@ public class Enterprise {
     private final String description;
 
 
-
-    @Column(nullable = false)
-    @ElementCollection
-    private final List<String> FieldsOfInterest; // store hashed password
+    // store hashed password
 
     @Column(nullable = false)
     private final String WebsiteLink;
@@ -33,7 +30,6 @@ public class Enterprise {
     protected Enterprise() {
         this.name = null;
         this.description = null;
-        this.FieldsOfInterest = null;
         this.WebsiteLink = null;
     }
 
@@ -46,18 +42,16 @@ public class Enterprise {
      *  @param WebsiteLink The Enterprise's Website Link
      */
 
-    public Enterprise(String name, String description,List<String> FieldsOfInterest, String WebsiteLink) {
+    public Enterprise(String name, String description, String WebsiteLink) {
         this.name = name;
         this.description =description;
-        this.FieldsOfInterest = FieldsOfInterest;
         this.WebsiteLink =  WebsiteLink;
     }
 
-    public Enterprise(Long id,String name, String description,List<String> FieldsOfInterest, String WebsiteLink) {
+    public Enterprise(Long id,String name, String description,String WebsiteLink) {
         this.id = id;
         this.name = name;
         this.description =description;
-        this.FieldsOfInterest = FieldsOfInterest;
         this.WebsiteLink =  WebsiteLink;
     }
 
@@ -85,9 +79,6 @@ public class Enterprise {
     /**
      gets Enterpise  fields of interest
      */
-    public List<String> getFieldsOfInterest() {
-        return FieldsOfInterest;
-    }
     /**
      gets Enterpise website link
      */
