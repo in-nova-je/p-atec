@@ -34,6 +34,7 @@ public class ConnectionService implements IConnectionService {
         validateConnectionInput(isInternshipNoJob, classname);
 
         // Buscar user e enterprise (já lançam exceções se não existirem)
+        UserDTO userFind=userService.getUserById(userid);
         User user = userRepository.getReferenceById(userid);
         Enterprise enterprise = enterpriseService.getEnterpriseById(enterpriseid);
 
@@ -51,11 +52,13 @@ public class ConnectionService implements IConnectionService {
 
         // Validações
         validateConnectionInput(isInternshipNoJob, classname);
-
+        UserDTO userFind=userService.getUserById(userid);
         User user = userRepository.getReferenceById(userid);
+        System.out.println("user id:"+userid +"actual user id obtain for some reason:" +user.getId());
+
         Enterprise enterprise =enterpriseService.getEnterpriseById(enterpriseid); // already throws exception
-        Connection con = new Connection(user, enterprise, isInternshipNoJob, classname);
-        Connection updated = connectionRepository.save(existingConnection);  // ✅ GUARDAR!
+        Connection con = new Connection(id,user, enterprise, isInternshipNoJob, classname);
+        Connection updated = connectionRepository.save(con);
 
 
         return mapToDTO(updated);

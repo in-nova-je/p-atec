@@ -8,6 +8,7 @@ public class UserDTO {
     private final boolean isStudent;
     private final String FieldsOfInterest;
 
+
     public UserDTO(Long id, String name, int level,String email, boolean isStudent,String fieldsOfInterest) {
         this.id = id;
         this.name = name;

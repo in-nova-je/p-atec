@@ -31,15 +31,7 @@ public class UserController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
-        /*
-        try {
-            var user = userService.getUserById(id);
-            return ResponseEntity.ok(user);
-        }catch(Exception e) {
-            return ResponseEntity.notFound().build();
-        }
-        *
-         */
+
         return ResponseEntity.ok(userService.getUserById(id));
     }
 

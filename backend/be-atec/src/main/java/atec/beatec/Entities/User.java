@@ -24,6 +24,9 @@ public class User {
     @Column
     private final String FieldsOfInterest;
 
+    //@Column
+   // private final String ProfilePicture;
+
     @SuppressWarnings("unused")
     @Column(nullable = false)
     private final String password; // store hashed password
@@ -42,6 +45,7 @@ public class User {
         this.isStudent = false;
         this.level = 0;
         this.FieldsOfInterest=null;
+        //this.ProfilePicture = null;
     }
 
     /**
@@ -51,13 +55,14 @@ public class User {
      * @param password The user's password (hashed)
      */
 
-    public User(String name, int level, String password,String email, boolean isStudent,String fieldsOfInterest) {
+    public User(String name, int level, String password,String email, boolean isStudent,String fieldsOfInterest,String profilePicture) {
         this.name = name;
         this.level = level;
         this.email = email;
         this.isStudent = isStudent;
         this.password = password;
         this.FieldsOfInterest=fieldsOfInterest;
+        //this.ProfilePicture=profilePicture;
 
     }
 
@@ -70,7 +75,7 @@ public class User {
      * @param level the users level
      * @param password   The user's password (hashed)
      */
-    public User(long id,String name, int level, String password,String email, boolean isStudent,String fieldsOfInterest) {
+    public User(long id,String name, int level, String password,String email, boolean isStudent,String fieldsOfInterest,String profilePicture) {
         this.id = id;
         this.name = name;
         this.level = level;
@@ -78,6 +83,7 @@ public class User {
         this.isStudent = isStudent;
         this.password = password;
         this.FieldsOfInterest=fieldsOfInterest;
+        //this.ProfilePicture=profilePicture;
 
     }
 
@@ -118,6 +124,8 @@ public class User {
     public boolean getisStudent() {return isStudent;}
 
     public String getFieldsOfInterest() {return FieldsOfInterest;}
+
+    //public String getProfilePicture() {return ProfilePicture;}
 
 
 
