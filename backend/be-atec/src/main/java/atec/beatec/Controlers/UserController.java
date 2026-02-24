@@ -62,7 +62,7 @@ public class UserController {
      * @return
      */
     @PutMapping("/{id}") // post criar put ou patch alterar
-    public ResponseEntity<?> AlterById(@PathVariable Long id, @RequestParam String name, @RequestParam int level, @RequestParam String email,@RequestParam String FieldsOfInterest) {
+    public ResponseEntity<?> AlterById(@PathVariable Long id, @RequestParam String name, @RequestParam int level, @RequestParam String email,@RequestParam String FieldsOfInterest, @RequestParam(defaultValue = "not available") String ProfilePicture) {
         /*try {
             UserDTO user = userService.getUserById(id);
             UserDTO updateUser = userService.updateUser(id, name, level, email);
@@ -70,8 +70,8 @@ public class UserController {
         }
         catch(Exception e) {
             return ResponseEntity.notFound().build();
-        }*/
-        UserDTO updatedUser = userService.updateUser(id, name, level, email,FieldsOfInterest);
+        }*/System.out.println(ProfilePicture);
+        UserDTO updatedUser = userService.updateUser(id, name, level, email,FieldsOfInterest,ProfilePicture);
         return ResponseEntity.ok(updatedUser);
     }
 
@@ -92,7 +92,7 @@ public class UserController {
         }
 
         UserDTO user = userService.getUserById(id);
-        UserDTO updatedUser = userService.updateUser(id, name, user.getLevel(), user.getEmail(), user.getFieldsOfInterest());
+        UserDTO updatedUser = userService.updateUser(id, name, user.getLevel(), user.getEmail(), user.getFieldsOfInterest(),user.getProfilePicture());
         return ResponseEntity.ok(updatedUser);
     }
 
@@ -112,7 +112,7 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }*/
         UserDTO user = userService.getUserById(id);
-        UserDTO updatedUser = userService.updateUser(id, user.getName(), level, user.getEmail(), user.getFieldsOfInterest());
+        UserDTO updatedUser = userService.updateUser(id, user.getName(), level, user.getEmail(), user.getFieldsOfInterest(),user.getProfilePicture());
         return ResponseEntity.ok(updatedUser);
     }
 

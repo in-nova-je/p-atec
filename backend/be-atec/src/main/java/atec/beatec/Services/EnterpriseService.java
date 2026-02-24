@@ -27,8 +27,10 @@ public class EnterpriseService implements IEnterpriseService {
         Enterprise existingEnterprise = enterpriseRepository.findById(id)
                 .orElseThrow(() -> new EnterpriseNotFoundException(id));
         validateEnterpriseInput(name,Description, Websitelink);
-        Enterprise enterprise= new  Enterprise( id,name, Description,Websitelink);
-        return enterpriseRepository.save(enterprise);
+        existingEnterprise.setName(name);
+        existingEnterprise.setDescription(Description);
+        existingEnterprise.setWebsiteLink(Websitelink);
+        return enterpriseRepository.save(existingEnterprise);
 
     }
 

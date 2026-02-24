@@ -10,22 +10,22 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
-    private final String name;
+    private  String name;
 
     @Column(nullable = false)
-    private final int level;
+    private  int level;
 
     @Column(nullable = false , columnDefinition = "varchar(255) default ''")//tirar isto depois de apagar users tds
-    private final String email;
+    private  String email;
 
     @Column(nullable = false, columnDefinition = "boolean default false")//tirar isto depois de apagar users tds
     private boolean isStudent;
 
     @Column
-    private final String FieldsOfInterest;
+    private String FieldsOfInterest;
 
-    //@Column
-   // private final String ProfilePicture;
+    @Column(name = "profile_picture", columnDefinition = "VARCHAR(1500000)")
+    private String ProfilePicture;
 
     @SuppressWarnings("unused")
     @Column(nullable = false)
@@ -45,7 +45,7 @@ public class User {
         this.isStudent = false;
         this.level = 0;
         this.FieldsOfInterest=null;
-        //this.ProfilePicture = null;
+        this.ProfilePicture = null;
     }
 
     /**
@@ -62,7 +62,7 @@ public class User {
         this.isStudent = isStudent;
         this.password = password;
         this.FieldsOfInterest=fieldsOfInterest;
-        //this.ProfilePicture=profilePicture;
+        this.ProfilePicture=profilePicture;
 
     }
 
@@ -83,7 +83,7 @@ public class User {
         this.isStudent = isStudent;
         this.password = password;
         this.FieldsOfInterest=fieldsOfInterest;
-        //this.ProfilePicture=profilePicture;
+        this.ProfilePicture=profilePicture;
 
     }
 
@@ -125,7 +125,17 @@ public class User {
 
     public String getFieldsOfInterest() {return FieldsOfInterest;}
 
-    //public String getProfilePicture() {return ProfilePicture;}
+    public String getProfilePicture() {return ProfilePicture;}
+
+    public void setName(String name) {this.name=name;}
+
+    public void setLevel(int level) {this.level=level;}
+
+    public void setEmail(String email) {this.email=email;}
+
+    public void setFieldsOfInterest(String fieldsOfInterest) {this.FieldsOfInterest=fieldsOfInterest;}
+
+    public void setProfilePicture(String profilePicture) {this.ProfilePicture=profilePicture;}
 
 
 

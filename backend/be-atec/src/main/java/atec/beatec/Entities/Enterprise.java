@@ -11,16 +11,16 @@ public class Enterprise {
     private Long id;
 
     @Column(nullable = false)
-    private final String name;
+    private  String name;
 
     @Column(nullable = false)
-    private final String description;
+    private String description;
 
 
     // store hashed password
 
     @Column(nullable = false)
-    private final String WebsiteLink;
+    private String WebsiteLink;
 
 
     /**
@@ -38,7 +38,6 @@ public class Enterprise {
      *
      * @param name     The user's name
      * @param description The Enterprise's description
-     * @param FieldsOfInterest The Enterprise's Fields Of Interest
      *  @param WebsiteLink The Enterprise's Website Link
      */
 
@@ -85,5 +84,11 @@ public class Enterprise {
     public String getWebsiteLink() {
         return WebsiteLink;
     }
+
+    public void setName(String name){this.name = name;}
+    public void setDescription(String description){this.description = description;}
+    public void setWebsiteLink(String WebsiteLink){this.WebsiteLink = WebsiteLink;}
+
+
 
 }

@@ -38,7 +38,7 @@ public class AuthenticationController {
      * @return ResponseEntity with the created User and HTTP status
      */
     @PostMapping("/register")
-    public ResponseEntity<?> createUser(@RequestParam String name, @RequestParam int level, @RequestParam String password,@RequestParam String email,@RequestParam String FieldsOfInterest ) {
+    public ResponseEntity<?> createUser(@RequestParam String name, @RequestParam int level, @RequestParam String password,@RequestParam String email,@RequestParam String FieldsOfInterest ,@RequestParam(defaultValue = "not available")String Profilepicture) {
         try{
             userService.getUserByName(name);
             // Se chegou aqui, user existe
@@ -63,7 +63,7 @@ public class AuthenticationController {
         }
 
 
-        UserDTO createdUser = userService.createUser(name, level, password,email,FieldsOfInterest);
+        UserDTO createdUser = userService.createUser(name, level, password,email,FieldsOfInterest,Profilepicture);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
     @PostMapping("/login")
