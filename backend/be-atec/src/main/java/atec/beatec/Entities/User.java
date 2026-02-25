@@ -29,7 +29,7 @@ public class User {
 
     @SuppressWarnings("unused")
     @Column(nullable = false)
-    private final String password; // store hashed password
+    private String password; // store hashed password
 
     
 

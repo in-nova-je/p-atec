@@ -23,7 +23,7 @@ public interface IUserService {
      * @return The updated User entity.
      */
 
-     UserDTO updateUser(Long id, String name, int level,String email,String FieldsOfInterest,String ProfilePicture);
+     UserDTO updateUser(Long id, String name, int level,String FieldsOfInterest,String ProfilePicture);
 
     /**
      * Creates a new User with the given name.

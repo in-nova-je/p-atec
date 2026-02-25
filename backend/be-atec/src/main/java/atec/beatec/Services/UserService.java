@@ -33,15 +33,18 @@ public class UserService implements IUserService {
     }
     // Create user
     @Transactional //when should i use it ? (makes the methos calles atomic)
-    public UserDTO createUser(String name, int level, String password,String email,String FieldsOfInterest,String ProfilePicture) {
+    public UserDTO createUser(String name, int level, String password,String email,String fieldsOfInterest,String profilePicture) {
 
-            validateUserInput(name, email, password, ProfilePicture);
+        validateCreateUserInput(name, password, email, profilePicture);
 
         //for conditions use a method validator to go allong the solid principles
-        User user = new User(name, level,passwordEncoder.encode(password),email,IsStudentOrNot(email),FieldsOfInterest,ProfilePicture);//hashing
+        User user = new User(name, level,passwordEncoder.encode(password),email,IsStudentOrNot(email),fieldsOfInterest,profilePicture);//hashing
         var saved = userRepository.save(user);
         return new UserDTO(saved.getId(), saved.getName(), saved.getLevel(), saved.getEmail(), saved.getisStudent(),saved.getFieldsOfInterest(), saved.getProfilePicture());
     }
+
+
+
     // Get user by ID
     public UserDTO getUserById(Long id) {
         var result =  userRepository.findById(id)
@@ -65,11 +68,6 @@ public class UserService implements IUserService {
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("Email cannot be empty");
         }
-
-
-       if (email == null || email.trim().isEmpty()) {
-           throw new IllegalArgumentException("Email cannot be empty");
-       }
 
        try {
            Optional<User> userOptional = userRepository.findByEmail(email);
@@ -98,21 +96,30 @@ public class UserService implements IUserService {
    }
 
     //updates user fields
-    public UserDTO updateUser(Long id, String name, int level,String email,String FieldsOfInterest,String ProfilePicture) {
+    public UserDTO updateUser(Long id, String name, int level,String fieldsOfInterest,String profilePicture) {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
 
-            validateUserInput(name, email, "nda", ProfilePicture);
+        validateUpdateUserInput(name, profilePicture, fieldsOfInterest);
 
 
          existingUser.setName(name);
          existingUser.setLevel(level);
-         existingUser.setEmail(email);
-         existingUser.setFieldsOfInterest(FieldsOfInterest);
-         existingUser.setProfilePicture(ProfilePicture);
+         existingUser.setFieldsOfInterest(fieldsOfInterest);
+         existingUser.setProfilePicture(profilePicture);
         User saved=userRepository.save(existingUser);
         return new UserDTO(saved.getId(),saved.getName(),saved.getLevel(),saved.getEmail(),saved.getisStudent(), saved.getFieldsOfInterest(),saved.getProfilePicture());
     }
+
+    private void validateUpdateUserInput(String name, String profilePicture, String fieldsOfInterest) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+        if (fieldsOfInterest == null || fieldsOfInterest.trim().isEmpty()) {
+            throw new IllegalArgumentException("FieldsOfInterest cannot be empty");
+        }
+    }
+
     //confirms that user password is correct
     public boolean ConfirmPassword(String name, String password) {//no futuro vai ser hash da password
         User user = userRepository.findByName(name);
@@ -141,7 +148,7 @@ public class UserService implements IUserService {
     }
 
 
-    private void validateUserInput(String name, String email, String password,String ProfilePicture)  {
+    private void validateCreateUserInput(String name, String password,String email, String profilePicture)  {
         /*
         if (!ProfilePicture.equals("not available")) {
             System.out.println(ProfilePicture);
@@ -175,10 +182,13 @@ public class UserService implements IUserService {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Name cannot be empty");
         }
+
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("Email cannot be empty");
         }
-        if (password != null && password.trim().isEmpty()) {
+
+
+        if (password == null || password.trim().isEmpty()) {
             throw new IllegalArgumentException("Password cannot be empty");
         }
 
@@ -186,7 +196,7 @@ public class UserService implements IUserService {
 
 
     public boolean IsStudentOrNot(String email) {
-        return email.contains("@atec.pt");
+        return email!=null && email.contains("@atec.pt");
     }
 }
 
