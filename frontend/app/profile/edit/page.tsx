@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { IconSchool, IconChevronDown, IconHeart } from "@tabler/icons-react";
+import { IconSchool, IconHeart } from "@tabler/icons-react";
 import Button from "@/components/Button";
 import AvatarBase from "@/components/profile/AvatarBase";
 import AvatarAction from "@/components/profile/AvatarAction";
@@ -26,6 +26,7 @@ export default function EditProfile() {
   const [newTag, setNewTag] = useState("");
   const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
   const router = useRouter();
+  const [toast, setToast] = useState<string | null>(null);
 
   function setPreview(file: File) {
     const url = URL.createObjectURL(file);
@@ -34,6 +35,19 @@ export default function EditProfile() {
       return url;
     });
   }
+
+  function handleSave() {
+  const nameOk = name.trim().length > 0;
+  const levelOk = level !== ""; 
+  const interestOk = interest !== "";
+
+  if (!nameOk || !levelOk || !interestOk) {
+    setToast("Preenche todos os campos antes de guardar");
+    window.setTimeout(() => setToast(null), 2000);
+    return;
+  }
+  router.push("/profile");
+}
 
   const canAdd = useMemo(() => {
     const v = newTag.trim();
@@ -153,7 +167,7 @@ export default function EditProfile() {
 
             <Button
               type="button"
-              onClick={() => router.push("/profile")}
+              onClick={handleSave}
               className="mt-8 w-full rounded-xl shadow-sm hover:opacity-95 bg-[linear-gradient(90deg,#222289_0%,#1C9CD8_98%)]"
             >
               Salvar Alterações
@@ -168,6 +182,13 @@ export default function EditProfile() {
           </div>
         </div>
       </section>
+      {toast && (
+        <div className="fixed left-1/2 top-5 z-[60] -translate-x-1/2">
+          <div className="rounded-xl bg-black/80 px-4 py-2 text-sm text-white shadow-lg">
+            {toast}
+          </div>
+        </div>
+      )}
     </main>
   );
 }

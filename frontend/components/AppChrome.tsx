@@ -11,13 +11,22 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
   const hideLogo = path.startsWith("/profile");
 
   return (
-    <>
+    <div
+      className="min-h-dvh w-full"
+      style={
+        {
+          ["--navbar-h" as any]: "96px",
+          ["--nav-gap" as any]: "20px",
+        } as React.CSSProperties
+      }
+    >
       <Prompt />
       {!hideLogo && <Logo />}
 
-      <div className="flex justify-center w-full h-full">{children}</div>
+      <div className="flex justify-center w-full pb-[calc(var(--navbar-h)+env(safe-area-inset-bottom)+var(--nav-gap))]">{children}</div>
 
-      <Navbar />
-    </>
+      <Navbar />  
+    </div>
+    
   );
 }
