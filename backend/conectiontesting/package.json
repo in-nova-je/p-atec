@@ -1,0 +1,12 @@
+{
+  "name": "connection-manager",
+  "version": "1.0.0",
+  "description": "Script to create, retrieve, and delete API connections",
+  "main": "manage_connections.js",
+  "scripts": {
+    "start": "node manage_connections.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}
