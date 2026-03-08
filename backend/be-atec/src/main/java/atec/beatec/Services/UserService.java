@@ -40,7 +40,7 @@ public class UserService implements IUserService {
         //for conditions use a method validator to go allong the solid principles
         User user = new User(name, level,passwordEncoder.encode(password),email,IsStudentOrNot(email),fieldsOfInterest,profilePicture);//hashing
         var saved = userRepository.save(user);
-        return new UserDTO(saved.getId(), saved.getName(), saved.getLevel(), saved.getEmail(), saved.getisStudent(),saved.getFieldsOfInterest(), saved.getProfilePicture());
+        return new UserDTO(saved.getId(), saved.getName(), saved.getLevel(), saved.getEmail(), saved.getisStudent(),saved.getFieldsOfInterest(), saved.getProfilePicture(),null);
     }
 
 
@@ -49,7 +49,7 @@ public class UserService implements IUserService {
     public UserDTO getUserById(Long id) {
         var result =  userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
-        return new UserDTO(result.getId(), result.getName(), result.getLevel(),result.getEmail(), result.getisStudent(), result.getFieldsOfInterest(),result.getProfilePicture());
+        return new UserDTO(result.getId(), result.getName(), result.getLevel(),result.getEmail(), result.getisStudent(), result.getFieldsOfInterest(),result.getProfilePicture(),null);
     }
 
     public UserDTO getUserByName(String name) {
@@ -60,7 +60,7 @@ public class UserService implements IUserService {
         if (user == null) {
             throw new UserNotFoundException("User not found with name: " + name);
         }
-        return new UserDTO(user.getId(), user.getName(), user.getLevel(), user.getEmail(), user.getisStudent(), user.getFieldsOfInterest(),user.getProfilePicture());
+        return new UserDTO(user.getId(), user.getName(), user.getLevel(), user.getEmail(), user.getisStudent(), user.getFieldsOfInterest(),user.getProfilePicture(),null);
 
 
     }
@@ -78,7 +78,7 @@ public class UserService implements IUserService {
 
            User user = userOptional.get();
            return new UserDTO(user.getId(), user.getName(), user.getLevel(),
-                   user.getEmail(), user.getisStudent(), user.getFieldsOfInterest(),user.getProfilePicture());
+                   user.getEmail(), user.getisStudent(), user.getFieldsOfInterest(),user.getProfilePicture(),null);
 
        } catch (IncorrectResultSizeDataAccessException e) {
            throw new IllegalStateException("Data integrity error: Multiple users found with email: " + email);
@@ -108,7 +108,7 @@ public class UserService implements IUserService {
          existingUser.setFieldsOfInterest(fieldsOfInterest);
          existingUser.setProfilePicture(profilePicture);
         User saved=userRepository.save(existingUser);
-        return new UserDTO(saved.getId(),saved.getName(),saved.getLevel(),saved.getEmail(),saved.getisStudent(), saved.getFieldsOfInterest(),saved.getProfilePicture());
+        return new UserDTO(saved.getId(),saved.getName(),saved.getLevel(),saved.getEmail(),saved.getisStudent(), saved.getFieldsOfInterest(),saved.getProfilePicture(),null);
     }
 
     private void validateUpdateUserInput(String name, String profilePicture, String fieldsOfInterest) {
@@ -136,7 +136,7 @@ public class UserService implements IUserService {
         Page<User> page = userRepository.findAll(PageRequest.of(pageNumber, pageSize));
         List<User> users = page.getContent();
         List<UserDTO> userDTOs=new ArrayList<>();
-        users.forEach(user -> userDTOs.add(new UserDTO(user.getId(), user.getName(), user.getLevel(), user.getEmail(), user.getisStudent(), user.getFieldsOfInterest(),user.getProfilePicture())));
+        users.forEach(user -> userDTOs.add(new UserDTO(user.getId(), user.getName(), user.getLevel(), user.getEmail(), user.getisStudent(), user.getFieldsOfInterest(),user.getProfilePicture(),null)));
         return userDTOs;
     }
 

@@ -4,6 +4,9 @@ import atec.beatec.Entities.Enterprise;
 import atec.beatec.Services.IEnterpriseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +23,14 @@ public class EnterpriseController {
 
 
     @PostMapping
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")//funciona assim
     public ResponseEntity<?> createEnterprise( @RequestParam String name,@RequestParam String Description,@RequestParam String Websitelink) {
+        //1. Grab the current user's security context
+        //Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
+        // 2. Print exactly who Spring thinks this is, and what roles they have
+        //System.out.println("Currently logged in user: " + auth.getName());
+        //System.out.println("User's authorities (roles): " + auth.getAuthorities());
         /*if (EnterpriseService.getEnterpriseByName(name) != null) {
             return new ResponseEntity<>("Enterprise already exists", HttpStatus.CONFLICT);
         }

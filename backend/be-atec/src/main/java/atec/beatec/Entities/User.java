@@ -31,6 +31,9 @@ public class User {
     @Column(nullable = false)
     private String password; // store hashed password
 
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.USER;
+
     
 
 
@@ -46,6 +49,7 @@ public class User {
         this.level = 0;
         this.FieldsOfInterest=null;
         this.ProfilePicture = null;
+        this.role = Role.USER;
     }
 
     /**
@@ -63,6 +67,7 @@ public class User {
         this.password = password;
         this.FieldsOfInterest=fieldsOfInterest;
         this.ProfilePicture=profilePicture;
+        this.role =  Role.USER;
 
     }
 
@@ -84,6 +89,7 @@ public class User {
         this.password = password;
         this.FieldsOfInterest=fieldsOfInterest;
         this.ProfilePicture=profilePicture;
+        this.role = Role.USER;
 
     }
 
@@ -127,6 +133,9 @@ public class User {
 
     public String getProfilePicture() {return ProfilePicture;}
 
+    public Role getRole() { return role; }
+
+
     public void setName(String name) {this.name=name;}
 
     public void setLevel(int level) {this.level=level;}
@@ -136,6 +145,8 @@ public class User {
     public void setFieldsOfInterest(String fieldsOfInterest) {this.FieldsOfInterest=fieldsOfInterest;}
 
     public void setProfilePicture(String profilePicture) {this.ProfilePicture=profilePicture;}
+
+    public void setRole(Role role) { this.role = role; }
 
 
 

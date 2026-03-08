@@ -2,12 +2,14 @@ package atec.beatec.Controlers;
 
 import atec.beatec.Entities.UserDTO;
 import atec.beatec.Exceptions.UserNotFoundException;
+import atec.beatec.Services.CUserDetailsService;
 import atec.beatec.Services.IUserService;
 import atec.beatec.Services.JWTTokenService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,14 +23,17 @@ import java.util.Map;
 public class AuthenticationController {
     private final IUserService userService;
     private final JWTTokenService jwtTokenService;
+    private final CUserDetailsService userDetailsService;
+
     /**
      * Constructor injection of the UserService.
      *
      * @param userService Service for user operations
      */
-    public AuthenticationController(IUserService userService ,JWTTokenService jwttokenservice) {
+    public AuthenticationController(IUserService userService ,JWTTokenService jwttokenservice, CUserDetailsService userDetailsService) {
         this.jwtTokenService=jwttokenservice;
         this.userService = userService;
+        this.userDetailsService = userDetailsService;
     }
 
     /**
@@ -75,11 +80,16 @@ public class AuthenticationController {
                 //criar token
                 //return the reponse com o token
                 // Build Authentication object manually
+
+                UserDetails userDetails = userDetailsService.loadUserByUsername(name);
+
                 UsernamePasswordAuthenticationToken auth =
                         new UsernamePasswordAuthenticationToken(
                                 name,    // the username
                                 null,    // password is not needed after login
-                                Collections.singleton(new SimpleGrantedAuthority("USER")) // empty authorities
+                                //Collections.singleton(new SimpleGrantedAuthority("USER")) // empty authorities
+                                userDetails.getAuthorities() // ← real role from DB
+
                         );
 
                 // Generate JWT

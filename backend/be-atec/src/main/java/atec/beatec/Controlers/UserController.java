@@ -1,6 +1,9 @@
 
 package atec.beatec.Controlers;
+import atec.beatec.Entities.Role;
+import atec.beatec.Entities.User;
 import atec.beatec.Entities.UserDTO;
+import atec.beatec.Repositories.UserRepository;
 import atec.beatec.Services.IUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,7 @@ public class UserController {
 
 
     private final IUserService userService;
+
 
     public UserController(IUserService userService) {
         this.userService = userService;
@@ -168,6 +172,7 @@ public class UserController {
             userService.DeleteUser(id);
             return ResponseEntity.noContent().build();
         }
+
 
 
 

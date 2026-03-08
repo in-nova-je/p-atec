@@ -10,9 +10,11 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -21,6 +23,8 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -37,6 +41,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity  // ← this is required for @PreAuthorize to work
 public class SecurityConfig {
 
     private UserDetailsService userDetailsService;
@@ -68,6 +73,19 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->auth.requestMatchers("/api/auth/register").permitAll()
                         .requestMatchers("/api/auth/login").permitAll()
+                        //adicionado agora
+                        .requestMatchers(HttpMethod.GET,"/api/users").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/Enterprise").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/Connection").permitAll()
+
+                        .requestMatchers(HttpMethod.POST,"/api/users").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/api/Enterprise").hasAuthority("SCOPE_ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/api/connections").hasAuthority("SCOPE_ADMIN")
+                        .requestMatchers(HttpMethod.PUT,"/api/users").hasAuthority("SCOPE_ADMIN")
+                        .requestMatchers(HttpMethod.PUT,"/api/Enterprise").hasAuthority("SCOPE_ADMIN")
+                        .requestMatchers(HttpMethod.PUT,"/api/connections").hasAuthority("SCOPE_ADMIN")
+
+
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 1. Set Session to Stateless
@@ -80,6 +98,8 @@ public class SecurityConfig {
      * defines a authentication based on the userDetailsService interface that is used for authentication
      * @return
      */
+
+
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider= new DaoAuthenticationProvider(this.userDetailsService);
