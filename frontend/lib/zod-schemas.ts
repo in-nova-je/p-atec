@@ -10,3 +10,8 @@ export const RegisteringUser = z
     message: "As passwords não coincidem",
     path: ["confirmPassword"],
   });
+
+export const LoggingInUser = z.object({
+  email: z.email("Este e-mail não é válido"),
+  password: z.string(),
+});
