@@ -74,16 +74,18 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->auth.requestMatchers("/api/auth/register").permitAll()
                         .requestMatchers("/api/auth/login").permitAll()
                         //adicionado agora
+                        /*
                         .requestMatchers(HttpMethod.GET,"/api/users").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/Enterprise").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/Connection").permitAll()
+                        *
+                         */
 
-                        .requestMatchers(HttpMethod.POST,"/api/users").hasAuthority("ADMIN")
                         .requestMatchers(HttpMethod.POST,"/api/Enterprise").hasAuthority("SCOPE_ADMIN")
-                        .requestMatchers(HttpMethod.POST,"/api/connections").hasAuthority("SCOPE_ADMIN")
+                        //.requestMatchers(HttpMethod.POST,"/api/connections").hasAuthority("SCOPE_ADMIN")
                         .requestMatchers(HttpMethod.PUT,"/api/users").hasAuthority("SCOPE_ADMIN")
                         .requestMatchers(HttpMethod.PUT,"/api/Enterprise").hasAuthority("SCOPE_ADMIN")
-                        .requestMatchers(HttpMethod.PUT,"/api/connections").hasAuthority("SCOPE_ADMIN")
+                        //.requestMatchers(HttpMethod.PUT,"/api/connections").hasAuthority("SCOPE_ADMIN")
 
 
                         .anyRequest().authenticated()
