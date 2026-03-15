@@ -20,11 +20,14 @@ export type Enterprise = {
   websiteUrl?: string;
 };
 
-export type User = {
-  id: string;
+export type ApiUser = {
+  id: number;
   name: string;
   level: "3" | "4" | "5" | "Aquele que não sabemos o nome";
-  isStudent: boolean;
+  email: string;
+  fieldsOfInterest: string;
+  profilePicture: string;
+  student: boolean;
 };
 
 export const DEFAULT_ENTERPRISE: Enterprise = {
