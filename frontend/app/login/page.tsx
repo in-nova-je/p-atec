@@ -14,7 +14,6 @@ export default function Login() {
   const [errors, setErrors] = useState<z.ZodError | null>(null);
   const [serverError, setServerError] = useState<string | null>(null);
 
-
   async function onSubmit(formData: FormData) {
     setErrors(null);
     setServerError(null);
@@ -37,8 +36,6 @@ export default function Login() {
       setServerError(result.message ?? "Erro no login");
       return;
     }
-
-    router.push("/profile");
   }
 
   return (
@@ -78,14 +75,24 @@ export default function Login() {
           )}
 
           <div>
-            <Input className="w-full" placeholder="E-mail" type="email" name="email" />
+            <Input
+              className="w-full"
+              placeholder="E-mail"
+              type="email"
+              name="email"
+            />
             <div className="text-xs text-red-500 mt-1">
               {errors?.issues.find((i) => i.path[0] === "email")?.message}
             </div>
           </div>
 
           <div>
-            <Input className="w-full" placeholder="Password" type="password" name="password" />
+            <Input
+              className="w-full"
+              placeholder="Password"
+              type="password"
+              name="password"
+            />
             <div className="text-xs text-red-500 mt-1">
               {errors?.issues.find((i) => i.path[0] === "password")?.message}
             </div>
