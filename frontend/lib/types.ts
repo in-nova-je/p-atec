@@ -13,11 +13,18 @@ export type ParsedEvent = {
 };
 
 export type Enterprise = {
+  id: number;
   name: string;
-  logoPath: string;
   description: string;
-  fieldsOfInterest?: string[];
   websiteUrl?: string;
+};
+
+export type Connection = {
+  id: number;
+  userId: number;
+  enterpriseId: number;
+  isInternshipNoJob: boolean;
+  classname: string;
 };
 
 export type ApiUser = {
@@ -31,8 +38,8 @@ export type ApiUser = {
 };
 
 export const DEFAULT_ENTERPRISE: Enterprise = {
-  name: "Nome da Empresa",
-  logoPath: "atec_logo.png",
-  description: "Descrição da empresa.",
-  fieldsOfInterest: ["Área de Interesse 1", "Área de Interesse 2"],
+  id: -1,
+  name: "Empresa não encontrada",
+  description:
+    "A empresa que procuraste não foi encontrada. Verifica se o URL está correto.",
 };

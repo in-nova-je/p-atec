@@ -9,7 +9,7 @@ export function formatPortugueseDate(date: Date) {
     })
     .split(" ")
     .map((word) =>
-      word.length <= 2 ? word : word.charAt(0).toUpperCase() + word.slice(1)
+      word.length <= 2 ? word : word.charAt(0).toUpperCase() + word.slice(1),
     )
     .join(" ");
 }
@@ -22,7 +22,7 @@ export function formatShortPortugueseDate(date: Date) {
     })
     .split(" ")
     .map((word) =>
-      word.length <= 2 ? word : word.charAt(0).toUpperCase() + word.slice(1)
+      word.length <= 2 ? word : word.charAt(0).toUpperCase() + word.slice(1),
     )
     .join(" ");
 }

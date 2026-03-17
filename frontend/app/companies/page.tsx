@@ -2,15 +2,24 @@
 
 import SearchBar from "@/components/SearchBar";
 import { useEffect, useState } from "react";
-import companies from "@/json/companies.json";
 import CompanyCard from "@/components/CompanyCard";
 import { type Enterprise } from "@/lib/types";
+import { getAllEnterprises } from "@/lib/enterpriseApi";
 
 export default function Companies() {
+  const [companies, setCompanies] = useState<Enterprise[]>([]);
   const [search, setSearch] = useState("");
   const [filteredCompanies, setFilteredCompanies] = useState<Enterprise[]>(
     companies as Enterprise[],
   );
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      const data = (await getAllEnterprises()) as Enterprise[];
+      setCompanies(data);
+    };
+    fetchCompanies();
+  }, []);
+
   useEffect(() => {
     const filtered = companies.filter((company) =>
       company.name.toLowerCase().includes(search.toLowerCase()),
@@ -36,7 +45,7 @@ export default function Companies() {
             <CompanyCard
               key={company.name}
               name={company.name}
-              logo={company.logoPath}
+              logo={""}
               description={company.description}
             />
           ))}

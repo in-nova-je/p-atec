@@ -5,7 +5,7 @@ import { type Enterprise, DEFAULT_ENTERPRISE } from "@/lib/types";
 import { use, useEffect, useState } from "react";
 import { Vibrant } from "node-vibrant/browser";
 import FloatingButton from "@/components/FloatingButton";
-import { IconChevronLeft, IconX  } from "@tabler/icons-react";
+import { IconChevronLeft, IconX } from "@tabler/icons-react";
 
 export default function Company({
   params,
@@ -19,19 +19,15 @@ export default function Company({
   const [color, setColor] = useState<string>();
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isContactMounted, setIsContactMounted] = useState(false);
-  const [toast, setToast] = useState<string|null>(null);
+  const [toast, setToast] = useState<string | null>(null);
   const [nome, setNome] = useState("");
   const [turma, setTurma] = useState("");
   const [motivo, setMotivo] = useState<string>("");
 
   useEffect(() => {
-    Vibrant.from(companyData.logoPath)
-      .getPalette()
-      .then((palette) => setColor(palette.Vibrant?.hex));
-  }, [companyData.logoPath]);
-
-  useEffect(() => {
-    if (!isContactOpen) { return; }
+    if (!isContactOpen) {
+      return;
+    }
 
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -68,11 +64,13 @@ export default function Company({
     setMotivo("");
     closeContact();
     window.setTimeout(() => setToast(null), 2000);
-}
+  }
 
   return (
     <>
-      <FloatingButton style={{ background: color }} onClick={() => openContact()}
+      <FloatingButton
+        style={{ background: color }}
+        onClick={() => openContact()}
       >
         Entrar em Contacto
       </FloatingButton>
@@ -94,8 +92,7 @@ export default function Company({
           </p>
         </div>
       </div>
-      
-      
+
       {isContactMounted && (
         <div className="fixed inset-0 z-50">
           {/* overlay */}
@@ -109,7 +106,9 @@ export default function Company({
           />
 
           {/* sheet */}
-            <div className={`absolute inset-x-0 bottom-0 rounded-t-3xl bg-white p-5 shadow-xl max-h-[85vh] overflow-y-auto transition-transform duration-300 ease-out ${ isContactOpen ? "translate-y-0" : "translate-y-full"}`}>
+          <div
+            className={`absolute inset-x-0 bottom-0 rounded-t-3xl bg-white p-5 shadow-xl max-h-[85vh] overflow-y-auto transition-transform duration-300 ease-out ${isContactOpen ? "translate-y-0" : "translate-y-full"}`}
+          >
             <div className="mx-auto mb-3 h-1.5 w-12 rounded-full bg-secondary/20" />
 
             <div className="flex items-center justify-between">
@@ -126,13 +125,19 @@ export default function Company({
             </div>
 
             {/* FORM PLACEHOLDER */}
-            <form className="mt-4 space-y-3" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+            <form
+              className="mt-4 space-y-3"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit();
+              }}
+            >
               <div>
                 <label className="block text-xs font-semibold text-foreground">
                   Nome Completo
                 </label>
                 <input
-                  value = {nome}
+                  value={nome}
                   onChange={(e) => setNome(e.target.value)}
                   className="mt-2 w-full rounded-xl border border-secondary/25 px-3 py-2 text-sm bg-white
                              focus:outline-none focus:ring-2 focus:ring-primary"
@@ -160,7 +165,7 @@ export default function Company({
                 </label>
                 <div className="mt-2 relative">
                   <select
-                    value = {motivo}
+                    value={motivo}
                     onChange={(e) => setMotivo(e.target.value)}
                     className="w-full appearance-none rounded-xl border border-secondary/25 bg-white
                               px-3 py-2 pr-9 text-sm

@@ -1,17 +1,17 @@
 [
   {
+    "id": 1,
     "name": "Cloudflare",
-    "logoPath": "/logos/cloudflare.png",
     "description": "A Cloudflare fornece serviços de desempenho, segurança e confiabilidade para a web, incluindo CDN, proteção contra DDoS e computação de borda."
   },
   {
+    "id": 2,
     "name": "Netflix",
-    "logoPath": "/logos/netflix.png",
     "description": "A Netflix é uma plataforma global de streaming que oferece filmes, séries, documentários e conteúdos originais em diversos dispositivos."
   },
   {
+    "id": 3,
     "name": "Google",
-    "logoPath": "/logos/google.jpg",
     "description": "O Google é uma empresa de tecnologia especializada em serviços de internet, busca, publicidade, computação em nuvem e produtos de software."
   }
 ]
