@@ -5,6 +5,7 @@ import atec.beatec.Exceptions.UserNotFoundException;
 import atec.beatec.Services.CUserDetailsService;
 import atec.beatec.Services.IUserService;
 import atec.beatec.Services.JWTTokenService;
+import atec.beatec.Services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,7 +27,6 @@ public class AuthenticationController {
     private final IUserService userService;
     private final JWTTokenService jwtTokenService;
     private final CUserDetailsService userDetailsService;
-
     /**
      * Constructor injection of the UserService.
      *
@@ -103,8 +103,9 @@ public class AuthenticationController {
                             cookie.setPath("/");
                             cookie.setMaxAge(3600);       // 1 hour in seconds
                             response.addCookie(cookie);
+                            UserDTO user=userService.getUserByName(name);
 
-                           return ResponseEntity.ok(Map.of("message", "Login successful"));
+                           return ResponseEntity.ok(Map.of("message", user));
 
             } else {
                 // Password incorreta
