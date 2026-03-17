@@ -1,6 +1,6 @@
 "use server";
 
-import { apiFetch } from "./api";
+import { apiFetchServer } from "./apiServer";
 import { cookies } from "next/headers";
 import { Enterprise } from "./types";
 
@@ -11,7 +11,7 @@ export async function getAllEnterprises() {
     pageSize: "1000",
   });
 
-  return apiFetch<Enterprise[]>(`/Enterprise?${params}`, {
+  return apiFetchServer<Enterprise[]>(`/Enterprise?${params}`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${token}`,

@@ -1,6 +1,6 @@
 "use server";
 
-import { apiFetch } from "./api";
+import { apiFetchServer } from "./apiServer";
 
 export function createConnection(
   userId: number,
@@ -14,7 +14,7 @@ export function createConnection(
     isInternshipNoJob: String(isInternshipNoJob),
     classname,
   });
-  return apiFetch(`/connections?${params.toString()}`, {
+  return apiFetchServer(`/connections?${params.toString()}`, {
     method: "POST",
   });
 }
