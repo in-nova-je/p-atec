@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Collections;
 import java.util.Map;
@@ -72,7 +74,7 @@ public class AuthenticationController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam String name, @RequestParam String password) {
+    public ResponseEntity<?> login(@RequestParam String name, @RequestParam String password,HttpServletResponse response) {
         try {
 
 
@@ -94,7 +96,16 @@ public class AuthenticationController {
 
                 // Generate JWT
                 String token = jwtTokenService.generateToken(auth);
-                return ResponseEntity.ok(Map.of("token", token));
+                //return ResponseEntity.ok(Map.of("token", token));// Set the token as an HttpOnly cookie
+                            Cookie cookie = new Cookie("token", token);
+                            cookie.setHttpOnly(true);
+                            cookie.setSecure(true);       // use false in local dev if not using HTTPS
+                            cookie.setPath("/");
+                            cookie.setMaxAge(3600);       // 1 hour in seconds
+                            response.addCookie(cookie);
+
+                           return ResponseEntity.ok(Map.of("message", "Login successful"));
+
             } else {
                 // Password incorreta
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
