@@ -24,7 +24,7 @@ public class User {
     @Column
     private String FieldsOfInterest;
 
-    @Column(name = "profile_picture", columnDefinition = "VARCHAR(1500000)")
+    @Column(name = "profile_picture", columnDefinition = "VARCHAR(10485760)")
     private String ProfilePicture;
 
     @SuppressWarnings("unused")

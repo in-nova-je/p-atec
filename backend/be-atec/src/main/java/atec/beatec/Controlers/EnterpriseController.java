@@ -24,7 +24,7 @@ public class EnterpriseController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('SCOPE_ADMIN')")//funciona assim
-    public ResponseEntity<?> createEnterprise( @RequestParam String name,@RequestParam String Description,@RequestParam String Websitelink) {
+    public ResponseEntity<?> createEnterprise( @RequestParam String name,@RequestParam String Description,@RequestParam String Websitelink,@RequestParam String ProfilePicture) {
         //1. Grab the current user's security context
         //Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -42,7 +42,7 @@ public class EnterpriseController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
         Enterprise enterprise = EnterpriseService.createEnterprise(
-                name, Description, Websitelink);
+                name, Description, Websitelink,ProfilePicture);
         return ResponseEntity.status(HttpStatus.CREATED).body(enterprise);
     }
 

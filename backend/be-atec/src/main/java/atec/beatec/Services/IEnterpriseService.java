@@ -24,7 +24,7 @@ public interface IEnterpriseService {
      * @return The Created Enterprise entity.
      */
 
-    public Enterprise createEnterprise( String name,String Description,String Websitelink);
+    public Enterprise createEnterprise( String name,String Description,String Websitelink,String ProfilePicture);
     /**
      * Retrieves a Enterprise by its unique ID.
      *
