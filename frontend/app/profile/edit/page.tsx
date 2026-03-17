@@ -7,6 +7,8 @@ import Button from "@/components/Button";
 import AvatarBase from "@/components/profile/AvatarBase";
 import AvatarAction from "@/components/profile/AvatarAction";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { getUserByEmailAction, updateUserAction } from "@/lib/actions/user";
 
 const LEVELS = [3, 4];
 const INTERESTS = [
@@ -19,16 +21,31 @@ const INTERESTS = [
 ];
 
 export default function EditProfile() {
+  const router = useRouter();
+  const [userId, setUserId] = useState<number | null>(null);
   const [name, setName] = useState("");
   const [level, setLevel] = useState<number | "">("");
   const [interest, setInterest] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [newTag, setNewTag] = useState("");
   const [avatarSrc, setAvatarSrc] = useState<string | null>(null);
-  const router = useRouter();
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [toast, setToast] = useState<string | null>(null);
 
+  useEffect(() => {
+    (async () => {
+      const user = await getUserByEmailAction();
+      if (!user) return;
+
+      setUserId(user.id);
+      setName(user.name ?? "");
+      setLevel(typeof user.level === "number" ? user.level : "");
+      setInterest(user.fieldsOfInterest ?? "");
+    })();
+  }, []);
+
   function setPreview(file: File) {
+    setAvatarFile(file);
     const url = URL.createObjectURL(file);
     setAvatarSrc((prev) => {
       if (prev) URL.revokeObjectURL(prev);
@@ -36,18 +53,50 @@ export default function EditProfile() {
     });
   }
 
-  function handleSave() {
-  const nameOk = name.trim().length > 0;
-  const levelOk = level !== ""; 
-  const interestOk = interest !== "";
-
-  if (!nameOk || !levelOk || !interestOk) {
-    setToast("Preenche todos os campos antes de guardar");
-    window.setTimeout(() => setToast(null), 2000);
-    return;
+  //func all chatgpt
+  function fileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = String(reader.result ?? "");
+        // "data:image/png;base64,AAAA" -> "AAAA"
+        const base64 = result.includes(",") ? result.split(",")[1] : result;
+        resolve(base64);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
   }
-  router.push("/profile");
-}
+
+  async function handleSave() {
+    const nameOk = name.trim().length > 0;
+    const levelOk = level !== "";
+    const interestOk = interest !== "";
+    const idOk = userId !== null;
+
+    if (!nameOk || !levelOk || !interestOk || !idOk) {
+      setToast("Preenche todos os campos antes de guardar");
+      window.setTimeout(() => setToast(null), 2000);
+      return;
+    }
+    try {
+      const profilePicture =
+        avatarFile ? await fileToBase64(avatarFile) : undefined;
+      await updateUserAction({
+        id: userId!,
+        name: name.trim(),
+        level: Number(level),
+        fieldsOfInterest: interest,
+        profilePicture,
+      });
+
+      router.push("/profile");
+    } catch (e) {
+      console.error(e);
+      setToast("Erro a guardar alterações");
+      window.setTimeout(() => setToast(null), 2000);
+    }
+  }
 
   const canAdd = useMemo(() => {
     const v = newTag.trim();
@@ -114,9 +163,10 @@ export default function EditProfile() {
                       e.target.value === "" ? "" : Number(e.target.value),
                     )
                   }
-                  className="w-full appearance-none rounded-xl border border-secondary/25 bg-white
+                  className={`w-full appearance-none rounded-xl border border-secondary/25 bg-white
                             px-3 py-2 pl-9 pr-9 text-sm font-normal
                             focus:outline-none focus:ring-2 focus:ring-primary"
+                            ${level === "" ? "text-secondary/60" : "text-foreground"}`}
                 >
                   <option value="" disabled>
                     Nível
@@ -145,9 +195,10 @@ export default function EditProfile() {
                 <select
                   value={interest}
                   onChange={(e) => setInterest(e.target.value)}
-                  className="w-full appearance-none rounded-xl border border-secondary/25 bg-white
-                            px-3 py-2 pl-9 pr-9 text-sm font-normal
-                            focus:outline-none focus:ring-2 focus:ring-primary"
+                  className={`w-full appearance-none rounded-xl border border-secondary/25 bg-white
+                              px-3 py-2 pl-9 pr-9 text-sm font-normal
+                              focus:outline-none focus:ring-2 focus:ring-primary
+                              ${interest === "" ? "text-secondary/60" : "text-foreground"}`}
                 >
                   <option value="" disabled>
                     Interesse
