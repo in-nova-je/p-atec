@@ -1,14 +1,58 @@
+import { apiFetchServer } from "@/lib/apiServer";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { IconBook, IconSchool } from "@tabler/icons-react";
 import AvatarBase from "@/components/profile/AvatarBase";
 import AvatarAction from "@/components/profile/AvatarAction";
 
-export default function Profile() {
+
+type ApiUser = {
+  id: number;
+  name: string;
+  level: number;
+  fieldsOfInterest: string;
+  profilePicture: string;
+  student: boolean;
+  email: string;
+};
+
+export default async function Profile() {
+  const cookieStore = await cookies();
+  const email = cookieStore.get("userEmail")?.value;
+  const token = cookieStore.get("idToken")?.value;
+
+  if (!email || !token) {
+    redirect("/login");
+  }
+
+  let apiUser: ApiUser;
+  try {
+    apiUser = await apiFetchServer<ApiUser>(
+      `/users/by-email?email=${encodeURIComponent(email)}`
+    );
+  } catch (e: any) {
+    const msg = String(e?.message ?? "");
+    if (msg.includes("API 401") || msg.includes("API 403")) { //token invalido ou expirado penso eu 
+      redirect("/login");
+    }
+    throw e;
+  }
+
+  const raw = (apiUser.profilePicture ?? "").trim();
+  const avatarSrc =
+    raw && raw !== "not available"
+      ? `data:image/jpeg;base64,${raw}`
+      : null;
+
   const user = {
-    name: "Nome do User",
-    level: null as number | null,
-    interests: [] as string[],
+    name: apiUser.name,
+    level: apiUser.level,
+    interests: apiUser.fieldsOfInterest
+      ? apiUser.fieldsOfInterest.split(",").map((s) => s.trim()).filter(Boolean)
+      : [],
   };
-  
+
+
 
   return (
     <main className="min-h-dvh bg-background pb-28 font-sans w-full">
@@ -20,15 +64,13 @@ export default function Profile() {
 
       <section className="mx-auto max-w-3xl px-8 -mt-14">
         <div className="flex flex-col items-center">
-          {/* Avatar igual ao edit + lápis clicável */}
           <div className="relative">
-            <AvatarBase />
+            <AvatarBase src={avatarSrc} />
             <AvatarAction variant="pencil" href="/profile/edit" />
           </div>
 
           <p className="mt-4 text-base text-foreground">{user.name}</p>
 
-          {/* Pílula nível (mantém como tinhas, só exemplo) */}
           <div
             className="mt-6 inline-flex items-center rounded-full px-6 py-2"
             style={{
