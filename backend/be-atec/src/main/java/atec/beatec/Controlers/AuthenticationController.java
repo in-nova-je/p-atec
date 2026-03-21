@@ -4,10 +4,14 @@ import atec.beatec.Entities.UserDTO;
 import atec.beatec.Exceptions.UserNotFoundException;
 import atec.beatec.Services.IUserService;
 import atec.beatec.Services.JWTTokenService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,15 +25,17 @@ import java.util.Map;
 public class AuthenticationController {
     private final IUserService userService;
     private final JWTTokenService jwtTokenService;
+    private final UserDetailsService userDetailsService;
 
     /**
      * Constructor injection of the UserService.
      *
      * @param userService Service for user operations
      */
-    public AuthenticationController(IUserService userService, JWTTokenService jwttokenservice) {
+    public AuthenticationController(IUserService userService, JWTTokenService jwttokenservice,UserDetailsService userDetailsService) {
         this.jwtTokenService = jwttokenservice;
         this.userService = userService;
+        this.userDetailsService=userDetailsService;
     }
 
     /**
@@ -68,28 +74,57 @@ public class AuthenticationController {
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
+
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password, HttpServletResponse response) {
+
+
         try {
-            if (userService.confirmPasswordByEmail(email, password)) {
+            UserDTO userforname=userService.getUserByEmail(email);
 
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                        email,
-                        null,
-                        Collections.singleton(new SimpleGrantedAuthority("USER")));
+           String  name=userforname.getName();
+            if (userService.ConfirmPassword(name, password)) {
+                //criar token
+                //return the reponse com o token
+                // Build Authentication object manually
+                System.out.println("here");
+                name=userforname.getName();
+                System.out.println(userforname.getName());
 
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(name);
+
+                UsernamePasswordAuthenticationToken auth =
+                        new UsernamePasswordAuthenticationToken(
+                                name,    // the username
+                                null,    // password is not needed after login
+                                //Collections.singleton(new SimpleGrantedAuthority("USER")) // empty authorities
+                                userDetails.getAuthorities() // ← real role from DB
+
+                        );
+
+                // Generate JWT
                 String token = jwtTokenService.generateToken(auth);
-                return ResponseEntity.ok(Map.of("token", token));
+                //return ResponseEntity.ok(Map.of("token", token));// Set the token as an HttpOnly cookie
+                Cookie cookie = new Cookie("token", token);
+                cookie.setHttpOnly(true);
+                cookie.setSecure(true);       // use false in local dev if not using HTTPS
+                cookie.setPath("/");
+                cookie.setMaxAge(3600);       // 1 hour in seconds
+                response.addCookie(cookie);
+                UserDTO user=userService.getUserByName(name);
+
+                return ResponseEntity.ok(Map.of("message", user));
+
+            } else {
+                // Password incorreta
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("error", "INVALID_CREDENTIALS",
+                                "message", "Invalid username or password"));
             }
-
+        }catch(UserNotFoundException e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("error", "INVALID_CREDENTIALS",
-                            "message", "Invalid email or password"));
-
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("error", "INVALID_CREDENTIALS",
-                            "message", "Invalid email or password"));
+                            "message", "Invalid username or password"));
         }
     }
 }
