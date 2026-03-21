@@ -17,10 +17,12 @@ public class Enterprise {
     private String description;
 
 
-    // store hashed password
 
     @Column(nullable = false)
     private String WebsiteLink;
+
+    @Column(name = "profile_picture", columnDefinition = "VARCHAR(10485760)")
+    private String ProfilePicture=null;
 
 
     /**
@@ -31,6 +33,7 @@ public class Enterprise {
         this.name = null;
         this.description = null;
         this.WebsiteLink = null;
+        this.ProfilePicture = null;
     }
 
     /**
@@ -41,17 +44,19 @@ public class Enterprise {
      *  @param WebsiteLink The Enterprise's Website Link
      */
 
-    public Enterprise(String name, String description, String WebsiteLink) {
+    public Enterprise(String name, String description, String WebsiteLink,String ProfilePicture) {
         this.name = name;
         this.description =description;
         this.WebsiteLink =  WebsiteLink;
+        this.ProfilePicture = ProfilePicture;
     }
 
-    public Enterprise(Long id,String name, String description,String WebsiteLink) {
+    public Enterprise(Long id,String name, String description,String WebsiteLink,String ProfilePicture) {
         this.id = id;
         this.name = name;
         this.description =description;
         this.WebsiteLink =  WebsiteLink;
+        this.ProfilePicture = ProfilePicture;
     }
 
     // --------------------
@@ -84,6 +89,8 @@ public class Enterprise {
     public String getWebsiteLink() {
         return WebsiteLink;
     }
+
+    public String getProfilePicture() {return ProfilePicture;}
 
     public void setName(String name){this.name = name;}
     public void setDescription(String description){this.description = description;}

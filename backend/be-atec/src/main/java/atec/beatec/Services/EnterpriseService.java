@@ -35,8 +35,8 @@ public class EnterpriseService implements IEnterpriseService {
     }
 
 
-    public Enterprise createEnterprise( String name,String Description,String Websitelink){
-        Enterprise enterprise=new Enterprise( name,Description,Websitelink);
+    public Enterprise createEnterprise( String name,String Description,String Websitelink,String ProfilePicture){
+        Enterprise enterprise=new Enterprise( name,Description,Websitelink,ProfilePicture);
         enterpriseRepository.save(enterprise);
         return enterprise;
     }

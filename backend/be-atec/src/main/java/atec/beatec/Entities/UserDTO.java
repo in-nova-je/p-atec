@@ -8,8 +8,9 @@ public class UserDTO {
     private final boolean isStudent;
     private final String fieldsOfInterest;
     private final String profilePicture;
+    private final Role role;
 
-    public UserDTO(Long id, String name, int level,String email, boolean isStudent,String fieldsOfInterest, String profilePicture) {
+    public UserDTO(Long id, String name, int level,String email, boolean isStudent,String fieldsOfInterest, String profilePicture, Role role) {
         this.id = id;
         this.name = name;
         this.level = level;
@@ -17,6 +18,7 @@ public class UserDTO {
         this.isStudent = isStudent;
         this.fieldsOfInterest=fieldsOfInterest;
         this.profilePicture=profilePicture;
+        this.role=role;
     }
 
     // --------------------
@@ -52,5 +54,7 @@ public class UserDTO {
     public String getFieldsOfInterest() {return fieldsOfInterest;}
 
     public String getProfilePicture() {return profilePicture;}
+
+    public Role getRole() {return role;}
 
 }

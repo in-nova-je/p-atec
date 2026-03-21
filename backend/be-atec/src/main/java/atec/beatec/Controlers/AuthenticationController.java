@@ -40,8 +40,8 @@ public class AuthenticationController {
      */
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestParam String name, @RequestParam int level,
-            @RequestParam String password, @RequestParam String email, @RequestParam String FieldsOfInterest,
-            @RequestParam(defaultValue = "not available") String Profilepicture) {
+                                        @RequestParam String password, @RequestParam String email, @RequestParam String FieldsOfInterest,
+                                        @RequestParam(defaultValue = "not available") String Profilepicture) {
         try {
             userService.getUserByName(name);
             // Se chegou aqui, user existe
