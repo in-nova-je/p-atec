@@ -26,14 +26,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UserDetailsService;
-
-
-
-
-
-
-
-
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 
 @Configuration
 @EnableWebSecurity
@@ -47,17 +42,18 @@ public class SecurityConfig {
      *
      * @param userDetailsServiceService
      * @param rsaKeys
-     * contrutor for security config
+     *                                  contrutor for security config
      */
-    public SecurityConfig(UserDetailsService userDetailsServiceService,RsaKeyProprieties rsaKeys) {
+    public SecurityConfig(UserDetailsService userDetailsServiceService, RsaKeyProprieties rsaKeys) {
         this.userDetailsService = userDetailsServiceService;
-        this.rsaKeys=rsaKeys;
+        this.rsaKeys = rsaKeys;
     }
 
     /**
      *
      * @param http
-     * defines security rules of endpoint access and how authentication is established
+     *             defines security rules of endpoint access and how authentication
+     *             is established
      * @return
      * @throws Exception
      *
@@ -66,29 +62,38 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth ->auth.requestMatchers("/api/auth/register").permitAll()
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/api/auth/register").permitAll()
                         .requestMatchers("/api/auth/login").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 1. Set Session to Stateless
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults())) // 2. Enable JWT Resource Server
-                //.httpBasic(Customizer.withDefaults()) //funcionou com isto e sem as duas linhas a cima
+                        .anyRequest().authenticated())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 1. Set
+                                                                                                              // Session
+                                                                                                              // to
+                                                                                                              // Stateless
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .bearerTokenResolver(bearerTokenResolver())
+                        .jwt(Customizer.withDefaults())) // 2. Enable JWT Resource Server
+                                                         // .httpBasic(Customizer.withDefaults()) //funcionou com isto e
+                                                         // sem as duas
+                                                         // linhas a cima
                 .build();
     }
 
     /**
-     * defines a authentication based on the userDetailsService interface that is used for authentication
+     * defines a authentication based on the userDetailsService interface that is
+     * used for authentication
+     * 
      * @return
      */
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider= new DaoAuthenticationProvider(this.userDetailsService);
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(this.userDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
 
     /**
      * initializes a BcryptPasswordEncoder
+     * 
      * @return
      */
     @Bean
@@ -98,20 +103,23 @@ public class SecurityConfig {
 
     /**
      * use for decoding Jwt tokens(used internaly by Spring)
+     * 
      * @return (decoded jwt token )
      */
     @Bean
-    JwtDecoder jwtDecoder(){
+    JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withPublicKey(rsaKeys.publicKey()).build();
     }
+
     /**
      * use for encodign Jwt tokens(used internaly by Spring)
+     * 
      * @return (encoded jwt token )
      */
     @Bean
-    JwtEncoder jwtEncoder(){
+    JwtEncoder jwtEncoder() {
         JWK jwk = new RSAKey.Builder(rsaKeys.publicKey()).privateKey(rsaKeys.privateKey()).build();
-        //return NimbusJwtEncoder.withKeyPair(rsa)
+        // return NimbusJwtEncoder.withKeyPair(rsa)
         RSAKey rsaKey = new RSAKey.Builder(rsaKeys.publicKey())
                 .privateKey(rsaKeys.privateKey())
                 .build();
@@ -119,6 +127,29 @@ public class SecurityConfig {
         JWKSource<SecurityContext> jwkSource = new ImmutableJWKSet<>(new JWKSet(rsaKey));
         return new NimbusJwtEncoder(jwkSource);
 
+    }
+
+    @Bean
+    public BearerTokenResolver bearerTokenResolver() {
+        return request -> {
+            // 1) primeiro tenta o header Authorization: Bearer ...
+            String auth = request.getHeader("Authorization");
+            if (auth != null && auth.startsWith("Bearer ")) {
+                return auth.substring(7);
+            }
+
+            // 2) senão, tenta cookie "token"
+            Cookie[] cookies = request.getCookies();
+            if (cookies == null)
+                return null;
+
+            for (Cookie c : cookies) {
+                if ("token".equals(c.getName())) {
+                    return c.getValue();
+                }
+            }
+            return null;
+        };
     }
 
 }

@@ -36,6 +36,9 @@ export default function Login() {
       setServerError(result.message ?? "Erro no login");
       return;
     }
+    if (result.ok) {
+      router.push("/profile");
+    }
   }
 
   return (

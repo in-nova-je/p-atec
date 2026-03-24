@@ -4,10 +4,67 @@ import { cookies } from "next/headers";
 
 const BACKEND_BASE = "http://localhost:8080/api";
 
+function extractCookieValue(setCookie: string, name: string) {
+  const match = setCookie.match(new RegExp(`${name}=([^;]+)`));
+  return match?.[1];
+}
+
+export async function loginAction(formData: FormData) {
+  const email = String(formData.get("email") ?? "");
+  const password = String(formData.get("password") ?? "");
+
+  if (!email || !password) {
+    return { ok: false, message: "Email e password são obrigatórios" };
+  }
+
+  const url =
+    `${BACKEND_BASE}/auth/login?` +
+    new URLSearchParams({ email, password }).toString();
+
+  const res = await fetch(url, { method: "POST" });
+
+  if (!res.ok) {
+    return { ok: false, message: "Credenciais inválidas" };
+  }
+
+  const setCookie = res.headers.get("set-cookie");
+  if (!setCookie) {
+    return { ok: false, message: "Backend não devolveu Set-Cookie" };
+  }
+
+  const token = extractCookieValue(setCookie, "token");
+  if (!token) {
+    return { ok: false, message: "Não foi possível ler token do Set-Cookie" };
+  }
+
+  const cookieStore = await cookies();
+
+  cookieStore.set("token", token, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: false,
+    path: "/",
+    maxAge: 60 * 60,
+  });
+
+  cookieStore.set("userEmail", email, {
+    httpOnly: false,
+    sameSite: "lax",
+    secure: false,
+    path: "/",
+    maxAge: 60 * 60,
+  });
+
+  cookieStore.delete("idToken");
+
+  return { ok: true };
+}
+
 export async function registerAction(formData: FormData) {
   const email = String(formData.get("email") ?? "");
   const password = String(formData.get("password") ?? "");
   const confirmPassword = String(formData.get("confirmPassword") ?? "");
+
   const name = email.split("@")[0] || "user";
   const level = "3";
   const FieldsOfInterest = "";
@@ -32,80 +89,13 @@ export async function registerAction(formData: FormData) {
     }).toString();
 
   const res = await fetch(url, { method: "POST" });
-  const text = await res.text().catch(() => "");
-
   if (!res.ok) {
-    // tenta devolver a msg do backend (409 etc)
+    const text = await res.text().catch(() => "");
     return { ok: false, message: text || "Erro no registo" };
   }
 
-  const loginUrl =
-    `${BACKEND_BASE}/auth/login?` +
-    new URLSearchParams({ email, password }).toString();
-
-  const loginRes = await fetch(loginUrl, { method: "POST" });
-  const loginText = await loginRes.text().catch(() => "");
-
-  if (!loginRes.ok) {
-    return { ok: true, needsLogin: true };
-  }
-
-  const data = loginText ? JSON.parse(loginText) : {};
-  const token = data?.token;
-
-  if (token) {
-    const cookieStore = await cookies();
-    cookieStore.set("idToken", token, {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: false,
-      path: "/",
-      maxAge: 60 * 60 * 24 * 3,
-    });
-    cookieStore.set("userEmail", email, {
-      httpOnly: false,
-      sameSite: "lax",
-      secure: false,
-      path: "/",
-      maxAge: 60 * 60 * 24 * 3,
-    });
-  }
-
-  return { ok: true };
-}
-
-
-
-export async function loginAction(formData: FormData) {
-  const email = String(formData.get("email") ?? "");
-  const password = String(formData.get("password") ?? "");
-  if (!email || !password) {
-    return { ok: false, message: "Email e password são obrigatórios" };
-  }
-  const url =
-    `${BACKEND_BASE}/auth/login?` +
-    new URLSearchParams({ email, password }).toString();
-  const res = await fetch(url, { method: "POST" });
-  const text = await res.text().catch(() => "");
-
-  if (!res.ok) {
-    return { ok: false, message: "Credenciais inválidas" };
-  }
-
-  const data = text ? JSON.parse(text) : {};
-  const token = data?.token;
-  if (!token) {
-    return { ok: false, message: "Backend não devolveu token" };
-  }
-  const cookieStore = await cookies();
-  cookieStore.set("idToken", token, {
-    httpOnly: true,
-    sameSite: "lax",
-    secure: false, // em prod: true (https) !!
-    path: "/",
-    maxAge: 60 * 60 * 24 * 3, // 3 dias
-  });
-  cookieStore.set("userEmail", email, { httpOnly: false, sameSite: "lax", secure: false, path: "/", maxAge: 60 * 60 * 24 * 3 });
-
-  return { ok: true };
+  const fd = new FormData();
+  fd.set("email", email);
+  fd.set("password", password);
+  return await loginAction(fd);
 }

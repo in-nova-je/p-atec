@@ -19,7 +19,7 @@ type ApiUser = {
 export default async function Profile() {
   const cookieStore = await cookies();
   const email = cookieStore.get("userEmail")?.value;
-  const token = cookieStore.get("idToken")?.value;
+  const token = cookieStore.get("token")?.value;
 
   if (!email || !token) {
     redirect("/login");
