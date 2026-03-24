@@ -109,9 +109,9 @@ public class AuthenticationController {
                 //return ResponseEntity.ok(Map.of("token", token));// Set the token as an HttpOnly cookie
                 Cookie cookie = new Cookie("token", token);
                 cookie.setHttpOnly(true);
-                cookie.setSecure(false);       // use false in local dev if not using HTTPS
+                cookie.setSecure(true);       // use false in local dev if not using HTTPS
                 cookie.setPath("/");
-                cookie.setMaxAge(3600); // convert ms → seconds
+                cookie.setMaxAge((int)JWT_EXPIRATION_TIME/1000); // convert ms → seconds
                 response.addCookie(cookie);
                 UserDTO user=userService.getUserByName(name);
 
