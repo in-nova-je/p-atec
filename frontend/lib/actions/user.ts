@@ -17,9 +17,10 @@ export async function getUserByEmailAction(): Promise<ApiUser | null> {
   const email = (await cookies()).get("userEmail")?.value;
   if (!email) return null;
 
-  return await apiFetchServer<ApiUser>(`/users/by-email?email=${encodeURIComponent(email)}`);
+  return await apiFetchServer<ApiUser>(
+    `/users/by-email?email=${encodeURIComponent(email)}`,
+  );
 }
-
 
 export async function updateUserAction(input: {
   id: number;
@@ -38,4 +39,10 @@ export async function updateUserAction(input: {
       profilePicture: input.profilePicture ?? null,
     }),
   });
+}
+
+export async function getUserByEmail(email: string): Promise<ApiUser | null> {
+  return await apiFetchServer<ApiUser>(
+    `/users/by-email?email=${encodeURIComponent(email)}`,
+  );
 }

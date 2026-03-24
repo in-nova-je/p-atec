@@ -104,6 +104,12 @@ export default function Login() {
           <Button className="w-full bg-primary" variant="solid" type="submit">
             Entrar
           </Button>
+          <p className="text-left text-sm">
+            Ainda não tens conta?{" "}
+            <a href="/register" className="text-primary hover:underline">
+              Regista-te aqui
+            </a>
+          </p>
         </form>
       </div>
     </div>

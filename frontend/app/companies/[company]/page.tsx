@@ -1,11 +1,14 @@
 "use client";
 
-import companies from "@/json/companies.json";
 import { type Enterprise, DEFAULT_ENTERPRISE } from "@/lib/types";
 import { use, useEffect, useState } from "react";
 import { Vibrant } from "node-vibrant/browser";
 import FloatingButton from "@/components/FloatingButton";
 import { IconChevronLeft, IconX } from "@tabler/icons-react";
+import { getEnterpriseByName } from "@/lib/actions/enterprise";
+import CompanyPageSkeleton from "@/components/skeletons/CompanyPageSkeleton";
+import { createConnection } from "@/lib/connection";
+import { getUserByEmail } from "@/lib/actions/user";
 
 export default function Company({
   params,
@@ -13,8 +16,9 @@ export default function Company({
   params: Promise<{ company: string }>;
 }) {
   const { company } = use(params);
-  const companyData: Enterprise =
-    companies.find((c) => c.name === company) ?? DEFAULT_ENTERPRISE;
+  const [loading, setLoading] = useState(true);
+  const [companyData, setCompanyData] =
+    useState<Enterprise>(DEFAULT_ENTERPRISE);
 
   const [color, setColor] = useState<string>();
   const [isContactOpen, setIsContactOpen] = useState(false);
@@ -25,6 +29,21 @@ export default function Company({
   const [motivo, setMotivo] = useState<string>("");
 
   useEffect(() => {
+    if (!companyData.profilePicture) {
+      setColor("#333");
+      return;
+    }
+    Vibrant.from(companyData.profilePicture)
+      .getPalette()
+      .then((palette) => setColor(palette.Vibrant?.hex));
+    setLoading(false);
+  }, [companyData]);
+
+  useEffect(() => {
+    (async () => {
+      setCompanyData(await getEnterpriseByName(company));
+    })();
+
     if (!isContactOpen) {
       return;
     }
@@ -35,7 +54,7 @@ export default function Company({
     return () => {
       document.body.style.overflow = prev;
     };
-  }, [isContactOpen]);
+  }, [isContactOpen, company]);
 
   function openContact() {
     setIsContactMounted(true);
@@ -47,7 +66,7 @@ export default function Company({
     window.setTimeout(() => setIsContactMounted(false), 300);
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     const nomeOk = nome.trim().length > 0;
     const turmaOk = turma.trim().length > 0;
     const motivoOk = motivo.trim().length > 0;
@@ -58,12 +77,32 @@ export default function Company({
       return;
     }
 
+    const userEmail = (document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("userEmail="))
+      ?.split("=")[1] ?? null) as string | null;
+    if (userEmail) {
+      const userId = await getUserByEmail(decodeURIComponent(userEmail));
+      if (userId)
+        createConnection(
+          userId.id,
+          companyData.id,
+          motivo === "estágio",
+          turma,
+        );
+      else setToast("Erro ao obter dados do utilizador.");
+    }
+
     setToast("Submetido com sucesso!");
     setNome("");
     setTurma("");
     setMotivo("");
     closeContact();
     window.setTimeout(() => setToast(null), 2000);
+  }
+
+  if (loading) {
+    return <CompanyPageSkeleton />;
   }
 
   return (
@@ -85,7 +124,14 @@ export default function Company({
           </a>
         </div>
         <div className="px-4 flex flex-col gap-4">
-          <h1 className="">{companyData.name}</h1>
+          <div className="flex flex-row gap-2 items-center">
+            <img
+              src={companyData.profilePicture}
+              alt={companyData.name}
+              className="h-10 w-10 rounded-full object-cover"
+            />
+            <h1 className="">{companyData.name}</h1>
+          </div>
           <hr className="border-secondary/25" />
           <p className="text-justify text-secondary">
             {companyData.description}
