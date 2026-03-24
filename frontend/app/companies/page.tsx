@@ -4,10 +4,12 @@ import SearchBar from "@/components/SearchBar";
 import { useEffect, useState } from "react";
 import CompanyCard from "@/components/CompanyCard";
 import { type Enterprise } from "@/lib/types";
-import { getAllEnterprises } from "@/lib/enterpriseApi";
+import { getAllEnterprises } from "@/lib/actions/enterprise";
+import CompanyCardSkeleton from "@/components/skeletons/CompanyCardSkeleton";
 
 export default function Companies() {
   const [companies, setCompanies] = useState<Enterprise[]>([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [filteredCompanies, setFilteredCompanies] = useState<Enterprise[]>(
     companies as Enterprise[],
@@ -16,6 +18,7 @@ export default function Companies() {
     const fetchCompanies = async () => {
       const data = (await getAllEnterprises()) as Enterprise[];
       setCompanies(data);
+      setLoading(false);
     };
     fetchCompanies();
   }, []);
@@ -27,7 +30,7 @@ export default function Companies() {
     setFilteredCompanies(
       (search !== "" ? filtered : companies) as Enterprise[],
     );
-  }, [search]);
+  }, [search, companies]);
   return (
     <>
       <SearchBar setSearch={setSearch} />
@@ -41,14 +44,24 @@ export default function Companies() {
         </div>
         <hr className="text-secondary/25 my-5" />
         <div className="flex flex-col gap-4">
-          {filteredCompanies.map((company: Enterprise) => (
-            <CompanyCard
-              key={company.name}
-              name={company.name}
-              logo={""}
-              description={company.description}
-            />
-          ))}
+          {loading ? (
+            <>
+              <CompanyCardSkeleton />
+              <CompanyCardSkeleton />
+              <CompanyCardSkeleton />
+              <CompanyCardSkeleton />
+              <CompanyCardSkeleton />
+            </>
+          ) : (
+            filteredCompanies.map((company: Enterprise) => (
+              <CompanyCard
+                key={company.name}
+                name={company.name}
+                logo={company.profilePicture}
+                description={company.description}
+              />
+            ))
+          )}
         </div>
       </div>
     </>

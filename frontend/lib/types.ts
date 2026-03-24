@@ -16,7 +16,8 @@ export type Enterprise = {
   id: number;
   name: string;
   description: string;
-  websiteUrl?: string;
+  profilePicture: string;
+  websiteUrl: string;
 };
 
 export type Connection = {
@@ -42,4 +43,6 @@ export const DEFAULT_ENTERPRISE: Enterprise = {
   name: "Empresa não encontrada",
   description:
     "A empresa que procuraste não foi encontrada. Verifica se o URL está correto.",
+  profilePicture: "",
+  websiteUrl: "",
 };
