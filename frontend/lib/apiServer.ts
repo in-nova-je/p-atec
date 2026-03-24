@@ -1,9 +1,13 @@
 import { cookies } from "next/headers";
 
-const BASE_URL = "http://localhost:8080/api";
+const BASE_URL = process.env.BASE_URL || "http://localhost:8080/api";
+
 type ApiOptions = RequestInit & { auth?: boolean };
 
-export async function apiFetchServer<T>(path: string, options: ApiOptions = {}): Promise<T> {
+export async function apiFetchServer<T>(
+  path: string,
+  options: ApiOptions = {},
+): Promise<T> {
   const auth = options.auth ?? true;
   const headers = new Headers(options.headers);
 
