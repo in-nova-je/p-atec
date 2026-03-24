@@ -34,16 +34,14 @@ public class JWTTokenService {
      */
     public String generateToken(Authentication authentication) {
 
-        long now = System.currentTimeMillis();
-        Instant nowEpochs= Instant.ofEpochMilli(now);
-        Instant expEpochs= Instant.ofEpochMilli(now+JWT_EXPIRATION_TIME);
-        long exp= now + JWT_EXPIRATION_TIME;
+        Instant now = Instant.now();
+    
         String scope = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining());
         JwtClaimsSet claims = JwtClaimsSet.builder()
-                .issuedAt(nowEpochs)
-                .expiresAt(expEpochs)
+                .issuedAt(now)
+                .expiresAt(now.plusMillis(JWT_EXPIRATION_TIME))
                 .subject(authentication.getName())
                 .claim("scope", scope)
                 .build();

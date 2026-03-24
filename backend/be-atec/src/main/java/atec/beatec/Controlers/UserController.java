@@ -4,6 +4,7 @@ package atec.beatec.Controlers;
 import atec.beatec.Entities.Role;
 import atec.beatec.Entities.User;
 import atec.beatec.Entities.UserDTO;
+import atec.beatec.Exceptions.UserNotFoundException;
 import atec.beatec.Repositories.UserRepository;
 import atec.beatec.Services.IUserService;
 import org.springframework.http.HttpStatus;
@@ -68,17 +69,31 @@ public class UserController {
     @PutMapping("/{id}") // post criar put ou patch alterar
     public ResponseEntity<?> AlterById(@PathVariable Long id, @RequestParam String name, @RequestParam int level,
             @RequestParam String FieldsOfInterest,
+            @RequestParam String email,
             @RequestParam(defaultValue = "not available") String ProfilePicture) {
-        /*
-         * try {
-         * UserDTO user = userService.getUserById(id);
-         * UserDTO updateUser = userService.updateUser(id, name, level, email);
-         * return ResponseEntity.ok(updateUser);
-         * }
-         * catch(Exception e) {
-         * return ResponseEntity.notFound().build();
-         * }
-         */System.out.println(ProfilePicture);
+
+        try {
+            userService.getUserByName(name);
+            // Se chegou aqui, user existe
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("error", "USER_ALREADY_EXISTS",
+                            "message", "User already exists with name: " + name));
+        } catch (UserNotFoundException e) {
+
+        }
+        try {
+            userService.getUserByEmail(email);
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("error", "EMAIL_ALREADY_IN_USE",
+                            "message", "User with given email already exists: " + email));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("error", "MULTIPLE_EMAIL_INSTANCES",
+                            "message", "Email appears multiple times: " + email));
+        } catch (UserNotFoundException e) {
+
+        }
+
         UserDTO updatedUser = userService.updateUser(id, name, level, FieldsOfInterest, ProfilePicture);
         return ResponseEntity.ok(updatedUser);
     }
@@ -93,12 +108,12 @@ public class UserController {
     @PutMapping("name/{id}") // post criar put ou patch alterar
     public ResponseEntity<?> AlterByIdname(@PathVariable Long id, @RequestParam String name) {
 
-        try {
-            userService.getUserByName(name);
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        } catch (Exception e) {
-            // Nome disponível
-        }
+        userService.getUserByName(name);
+        try {   // Se chegou aqui, user existe
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("error", "USER_ALREADY_EXISTS",
+                            "message", "User already exists with name: " + name));
+        }catch (UserNotFoundException e) {}
 
         UserDTO user = userService.getUserById(id);
         UserDTO updatedUser = userService.updateUser(id, name, user.getLevel(), user.getFieldsOfInterest(),

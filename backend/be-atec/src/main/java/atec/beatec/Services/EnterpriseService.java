@@ -22,7 +22,7 @@ public class EnterpriseService implements IEnterpriseService {
 
 
     @Transactional
-    public Enterprise updateEnterprise(Long id, String name, String Description, String Websitelink){
+    public Enterprise updateEnterprise(Long id, String name, String Description, String Websitelink,String ProfilePicture){
 
         Enterprise existingEnterprise = enterpriseRepository.findById(id)
                 .orElseThrow(() -> new EnterpriseNotFoundException(id));
@@ -30,6 +30,7 @@ public class EnterpriseService implements IEnterpriseService {
         existingEnterprise.setName(name);
         existingEnterprise.setDescription(Description);
         existingEnterprise.setWebsiteLink(Websitelink);
+        existingEnterprise.setProfilePicture(ProfilePicture);
         return enterpriseRepository.save(existingEnterprise);
 
     }
@@ -96,6 +97,21 @@ public class EnterpriseService implements IEnterpriseService {
         if (websiteLink == null || websiteLink.trim().isEmpty()) {
             throw new IllegalArgumentException("Website link cannot be empty");
         }
+    }
+    public void cleanAllProfilePictures() {
+        List<Enterprise> enterprises = enterpriseRepository.findAll();
+
+        for (Enterprise e : enterprises) {
+            if (e.getProfilePicture() != null) {
+                e.setProfilePicture(
+                        e.getProfilePicture()
+                                .replace("\n", "")
+                                .replace("\r", "")
+                );
+            }
+        }
+
+        enterpriseRepository.saveAll(enterprises);
     }
 }
 
