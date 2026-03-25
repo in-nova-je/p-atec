@@ -11,7 +11,7 @@ export default function PromptSteps({
 }) {
   return (
     <div
-      className="fixed z-10 w-screen bottom-0 h-screen bg-secondary/25 backdrop-blur-xs flex flex-col-reverse p-4 font-sans"
+      className="fixed z-60 w-screen bottom-0 h-screen bg-secondary/25 backdrop-blur-xs flex flex-col-reverse p-4 font-sans"
       onClick={() => setOpen(false)}
     >
       <div className="flex flex-col bottom-0 gap-5 bg-background p-4 rounded-[14px]">

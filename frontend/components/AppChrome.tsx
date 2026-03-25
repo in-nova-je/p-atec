@@ -9,7 +9,8 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
   const path = usePathname();
   // No perfil e em editar perfil, o header é o do próprio ecrã (gradiente do Figma)
   const hideLogo = path.startsWith("/profile");
-
+  const hideNav = path.startsWith("/login") || path.startsWith("/register")
+  
   return (
     <div
       className="min-h-dvh w-full"
@@ -25,7 +26,7 @@ export default function AppChrome({ children }: { children: React.ReactNode }) {
 
       <div className="flex justify-center w-full pb-[calc(var(--navbar-h)+env(safe-area-inset-bottom)+var(--nav-gap))]">{children}</div>
 
-      <Navbar />  
+      {!hideNav && <Navbar />}
     </div>
     
   );
