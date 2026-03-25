@@ -33,7 +33,7 @@ export default function Company({
       setColor("#333");
       return;
     }
-    Vibrant.from(companyData.profilePicture)
+    Vibrant.from(`data:image/png;base64,${companyData.profilePicture}`)
       .getPalette()
       .then((palette) => setColor(palette.Vibrant?.hex));
     setLoading(false);

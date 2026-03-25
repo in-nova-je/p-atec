@@ -1,3 +1,4 @@
+"use client";
 import EventCard from "@/components/EventCard";
 import {
   getDayLabel,
@@ -7,14 +8,21 @@ import {
 } from "@/lib/utils";
 import { Fragment } from "react/jsx-runtime";
 import events from "@/json/events.json";
+import { useEffect, useState } from "react";
 
 export default function Events() {
-  const time = new Date().toLocaleTimeString([], {
+  const [now_date, setNowDate] = useState(new Date());
+
+  useEffect(() => {
+    setNowDate(new Date());
+  }, []);
+
+  const time = now_date.toLocaleTimeString([], {
     hour: "2-digit",
     minute: "2-digit",
   });
   const filteredEvents = parseEvents(events).filter(
-    (event) => !hasEventEnded(new Date(), event.dateEnd),
+    (event) => !hasEventEnded(now_date, event.dateEnd),
   );
   return (
     <div className="flex font-sans p-4 flex-col">
@@ -29,11 +37,11 @@ export default function Events() {
         {filteredEvents.map((event, i) => {
           const lastEvent = filteredEvents[Math.max(i - 1, 0)];
           const lastEventIsNow = isTimeBetween(
-            new Date(),
+            now_date,
             lastEvent.dateBegin,
             lastEvent.dateEnd,
           );
-          const now = isTimeBetween(new Date(), event.dateBegin, event.dateEnd);
+          const now = isTimeBetween(now_date, event.dateBegin, event.dateEnd);
           const newDay =
             event.dateBegin.getDate() != lastEvent.dateBegin.getDate() ||
             lastEventIsNow;
