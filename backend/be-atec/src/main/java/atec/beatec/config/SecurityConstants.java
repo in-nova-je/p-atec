@@ -1,5 +1,5 @@
 package atec.beatec.config;
 
 public class SecurityConstants {
-    public static final long JWT_EXPIRATION_TIME = 172800;
+    public static final long JWT_EXPIRATION_TIME = 1728000000;
 }
