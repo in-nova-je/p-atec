@@ -2,10 +2,12 @@ import { IconChevronRight } from "@tabler/icons-react";
 import Image from "next/image";
 
 export default function CompanyCard({
+  id,
   name,
   logo,
   description,
 }: {
+  id: number;
   name: string;
   logo: string;
   description: string;
@@ -13,15 +15,15 @@ export default function CompanyCard({
   return (
     <a
       className="flex gap-4 font-sans border-secondary/25 pb-5 border-b"
-      href={`/companies/${name}`}
+      href={`/companies/${id}`}
     >
-      <Image
+      {/*<Image
         src={logo}
         width={100}
         height={100}
         alt={name}
         className="h-full aspect-square rounded-xl"
-      />
+      />*/}
       <div>
         <p className="font-semibold text-xl mb-2">{name}</p>
         <p className="text-ellipsis line-clamp-2 text-sm text-secondary">

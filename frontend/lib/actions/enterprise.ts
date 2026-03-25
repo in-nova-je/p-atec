@@ -18,7 +18,7 @@ export async function getEnterpriseByName(name: string): Promise<Enterprise> {
     name,
   });
 
-  return apiFetchServer(`/Enterprise/by-name?${params}`, {
+  return apiFetchServer(`/Enterprise/${name}`, {
     method: "GET",
   });
 }
