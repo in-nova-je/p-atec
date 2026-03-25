@@ -1,76 +1,135 @@
 [
   {
-    "title": "Sessão Interativa: Conexões em Curso",
-    "dateBegin": "2026-01-12T19:15:00",
-    "dateEnd": "2026-01-12T22:15:00",
-    "location": "Espaço de Convívio"
+    "title": "Abertura da Feira",
+    "dateBegin": "2026-03-25T10:00:00",
+    "dateEnd": "2026-03-25T10:30:00",
+    "location": "Auditório / Área Principal"
   },
   {
-    "title": "Abertura Oficial & Boas-Vindas",
-    "dateBegin": "2026-01-12T09:30:00",
-    "dateEnd": "2026-01-12T10:30:00",
-    "location": "Auditório Principal"
+    "title": "Início das visitas à Feira pelas turmas",
+    "dateBegin": "2026-03-25T10:30:00",
+    "dateEnd": "2026-03-25T17:30:00",
+    "location": "Feira"
   },
   {
-    "title": "Painel: Formação Profissional e o Mercado de Trabalho",
-    "dateBegin": "2026-01-12T11:00:00",
-    "dateEnd": "2026-01-12T12:30:00",
-    "location": "Sala de Conferências"
+    "title": "Workshop: Estou a terminar a formação. E agora?",
+    "dateBegin": "2026-03-25T10:30:00",
+    "dateEnd": "2026-03-25T11:30:00",
+    "location": "Piso 1, Sala 1.07"
   },
   {
-    "title": "Almoço de Networking com Parceiros",
-    "dateBegin": "2026-01-12T13:30:00",
-    "dateEnd": "2026-01-12T15:00:00",
-    "location": "Área de Convívio"
+    "title": "Workshop: Gases de Soldadura - Fundamentos e Boas Práticas",
+    "dateBegin": "2026-03-25T10:30:00",
+    "dateEnd": "2026-03-25T11:30:00",
+    "location": "Piso 1, Sala 1.07"
   },
   {
-    "title": "Workshop: Como Articular Formação e Competências Profissionais",
-    "dateBegin": "2026-01-12T15:30:00",
-    "dateEnd": "2026-01-12T17:00:00",
-    "location": "Sala de Workshops"
+    "title": "Workshop: Da formação à Manutenção na Tabaqueira",
+    "dateBegin": "2026-03-25T11:30:00",
+    "dateEnd": "2026-03-25T12:30:00",
+    "location": "Piso 1, Sala 1.05"
+  },
+  {
+    "title": "Workshop: Estou a terminar a formação. E agora? (2ª edição)",
+    "dateBegin": "2026-03-25T12:00:00",
+    "dateEnd": "2026-03-25T13:00:00",
+    "location": "Piso 1, Sala 1.07"
+  },
+  {
+    "title": "Workshop: Da Formação ao Primeiro Emprego - Norauto",
+    "dateBegin": "2026-03-25T14:30:00",
+    "dateEnd": "2026-03-25T15:30:00",
+    "location": "Piso 1, Sala 1.05"
+  },
+  {
+    "title": "Jornada Técnica: Solução Digital Twins",
+    "dateBegin": "2026-03-25T14:30:00",
+    "dateEnd": "2026-03-25T15:30:00",
+    "location": "Piso 1, Sala 1.07"
+  },
+  {
+    "title": "Workshop: Tech Forward - Cloud, IA e Recrutamento",
+    "dateBegin": "2026-03-25T15:30:00",
+    "dateEnd": "2026-03-25T16:30:00",
+    "location": "Piso 1, Sala 1.07"
+  },
+  {
+    "title": "Workshop:  Da formação à Manutenção na Tabaqueira",
+    "dateBegin": "2026-03-25T16:30:00",
+    "dateEnd": "2026-03-25T17:30:00",
+    "location": "Piso 1, Sala 1.05"
+  },
+  {
+    "title": "Jornada Técnica: Novas Tecnologias Automóveis",
+    "dateBegin": "2026-03-25T19:30:00",
+    "dateEnd": "2026-03-25T20:30:00",
+    "location": "Piso 1, Sala 1.07"
+  },
+  {
+    "title": "Jornada Técnica: Energias Sustentáveis",
+    "dateBegin": "2026-03-25T19:30:00",
+    "dateEnd": "2026-03-25T20:30:00",
+    "location": "Piso 1, Sala 1.31"
+  },
+  {
+    "title": "Workshop: Gases de Soldadura  - Fundamentos e Boas Práticas",
+    "dateBegin": "2026-03-25T19:30:00",
+    "dateEnd": "2026-03-25T20:30:00",
+    "location": "Piso 1, Sala 1.05"
   },
 
   {
-    "title": "Café com Recrutadores e Parceiros Industriais",
-    "dateBegin": "2026-01-13T09:30:00",
-    "dateEnd": "2026-01-13T11:00:00",
-    "location": "Espaço de Convívio"
+    "title": "Abertura da Feira",
+    "dateBegin": "2026-03-26T10:00:00",
+    "dateEnd": "2026-03-26T10:30:00",
+    "location": "Área Principal"
   },
   {
-    "title": "Carreiras em Tecnologias e Indústria",
-    "dateBegin": "2026-01-13T21:00:00",
-    "dateEnd": "2026-01-13T22:00:00",
-    "location": "Sala de Conferências"
+    "title": "Início das visitas à Feira pelas turmas",
+    "dateBegin": "2026-03-26T10:00:00",
+    "dateEnd": "2026-03-26T17:30:00",
+    "location": "Feira"
   },
   {
-    "title": "Sessão de Troca de Experiências",
-    "dateBegin": "2026-01-13T22:00:00",
-    "dateEnd": "2026-01-13T23:30:00",
-    "location": "Sala de Networking"
+    "title": "Workshop: Levar a Vida (e o Trabalho) a Sério… com Humor",
+    "dateBegin": "2026-03-26T10:30:00",
+    "dateEnd": "2026-03-26T12:00:00",
+    "location": "Piso 1, Sala 1.07"
   },
   {
-    "title": "Happy Hour de Encerramento do Dia",
-    "dateBegin": "2026-01-13T23:00:00",
-    "dateEnd": "2026-01-14T00:00:00",
-    "location": "Terraço Panorâmico"
-  },
-
-  {
-    "title": "Workshops Técnicos por Especialidade",
-    "dateBegin": "2026-01-14T09:30:00",
-    "dateEnd": "2026-01-14T12:00:00",
-    "location": "Salas Multifunções"
+    "title": "Workshop: Introdução à metrologia e normalização",
+    "dateBegin": "2026-03-26T11:00:00",
+    "dateEnd": "2026-03-26T12:00:00",
+    "location": "Piso 1, Sala 1.05"
   },
   {
-    "title": "Mesa de Oportunidades: Formação e Contratos",
-    "dateBegin": "2026-01-14T13:00:00",
-    "dateEnd": "2026-01-14T14:30:00",
-    "location": "Sala de Conferências"
+    "title": "Workshop: Gestão e controlo de energia",
+    "dateBegin": "2026-03-26T11:00:00",
+    "dateEnd": "2026-03-26T12:00:00",
+    "location": "Piso 1, Laboratório 1.31"
   },
   {
-    "title": "Encerramento & Troca de Contactos",
-    "dateBegin": "2026-01-14T15:30:00",
-    "dateEnd": "2026-01-14T17:00:00",
-    "location": "Auditório Principal"
+    "title": "Workshop: Corte a laser",
+    "dateBegin": "2026-03-26T14:00:00",
+    "dateEnd": "2026-03-26T15:00:00",
+    "location": "Piso 0, Oficina de Soldadura"
+  },
+  {
+    "title": "Jornada Técnica: Área Eletrónica",
+    "dateBegin": "2026-03-26T14:30:00",
+    "dateEnd": "2026-03-26T15:30:00",
+    "location": "Piso 1, Sala 1.05"
+  },
+  {
+    "title": "Entrega de Prémios ATEC + Conferência Saúde Mental",
+    "dateBegin": "2026-03-26T15:00:00",
+    "dateEnd": "2026-03-26T16:15:00",
+    "location": "Piso 1, Sala 1.07"
+  },
+  {
+    "title": "Workshop: Desafios tecnológicos na manutenção industrial",
+    "dateBegin": "2026-03-26T16:30:00",
+    "dateEnd": "2026-03-26T17:30:00",
+    "location": "Piso 1, Sala 1.05"
   }
 ]
