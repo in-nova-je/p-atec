@@ -126,7 +126,7 @@ export default function Company({
         <div className="px-4 flex flex-col gap-4">
           <div className="flex flex-row gap-2 items-center">
             <img
-              src={companyData.profilePicture}
+              src={"data:image/png;base64," + companyData.profilePicture}
               alt={companyData.name}
               className="h-10 w-10 rounded-full object-cover"
             />

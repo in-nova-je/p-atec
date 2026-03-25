@@ -57,7 +57,7 @@ export default function Companies() {
               <CompanyCard
                 key={company.name}
                 name={company.name}
-                logo={company.profilePicture}
+                logo={"data:image/png;base64," + company.profilePicture}
                 description={company.description}
               />
             ))
