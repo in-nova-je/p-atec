@@ -16,7 +16,7 @@ const cards = [
   {
     icon: IconCalendar,
     label: "Data",
-    info: "26 a 27 Dez.",
+    info: "25 a 26 Março",
   },
   {
     icon: IconMapPin,
@@ -63,8 +63,8 @@ export default function Home() {
           />
         </div>
       </div>
-      <div className="mt-50 px-4 text-justify w-screen flex flex-col items-center">
-        <h2 className="text-primary">20ª Feira Empresarial</h2>
+      <div className="mt-50 pb-20 px-4 text-justify w-screen flex flex-col items-center h-fit">
+        <h2 className="text-primary">9ª Feira Empresarial</h2>
         <h3 className="mb-4 self-baseline">Sobre</h3>
         <p className="text-sm text-secondary">
           A Feira Empresarial ATEC liga talento jovem a oportunidades
@@ -86,7 +86,7 @@ export default function Home() {
         </div>
         <h3 className="my-4 self-baseline">Eventos</h3>
         {filteredEvents.length > 0 ? (
-          <div className="flex w-screen overflow-x-scroll overflow-y-hidden px-4 [scrollbar-width:none] snap-x snap-mandatory gap-4 h-auto">
+          <div className="flex w-screen overflow-x-scroll px-4 [scrollbar-width:none] snap-x snap-mandatory gap-4">
             {filteredEvents.map((event) => {
               return (
                 <EventCard

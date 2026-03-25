@@ -5,7 +5,6 @@ import { IconBook, IconSchool } from "@tabler/icons-react";
 import AvatarBase from "@/components/profile/AvatarBase";
 import AvatarAction from "@/components/profile/AvatarAction";
 
-
 type ApiUser = {
   id: number;
   name: string;
@@ -28,11 +27,12 @@ export default async function Profile() {
   let apiUser: ApiUser;
   try {
     apiUser = await apiFetchServer<ApiUser>(
-      `/users/by-email?email=${encodeURIComponent(email)}`
+      `/users/by-email?email=${encodeURIComponent(email)}`,
     );
   } catch (e: any) {
     const msg = String(e?.message ?? "");
-    if (msg.includes("API 401") || msg.includes("API 403")) { //token invalido ou expirado penso eu 
+    if (msg.includes("API 401") || msg.includes("API 403")) {
+      //token invalido ou expirado penso eu
       redirect("/login");
     }
     throw e;
@@ -40,19 +40,18 @@ export default async function Profile() {
 
   const raw = (apiUser.profilePicture ?? "").trim();
   const avatarSrc =
-    raw && raw !== "not available"
-      ? `data:image/jpeg;base64,${raw}`
-      : null;
+    raw && raw !== "not available" ? `data:image/jpeg;base64,${raw}` : null;
 
   const user = {
     name: apiUser.name,
     level: apiUser.level,
     interests: apiUser.fieldsOfInterest
-      ? apiUser.fieldsOfInterest.split(",").map((s) => s.trim()).filter(Boolean)
+      ? apiUser.fieldsOfInterest
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
       : [],
   };
-
-
 
   return (
     <main className="min-h-dvh bg-background pb-28 font-sans w-full">

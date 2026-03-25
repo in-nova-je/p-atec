@@ -14,7 +14,7 @@ export default function Events() {
     minute: "2-digit",
   });
   const filteredEvents = parseEvents(events).filter(
-    (event) => !hasEventEnded(new Date(), event.dateEnd)
+    (event) => !hasEventEnded(new Date(), event.dateEnd),
   );
   return (
     <div className="flex font-sans p-4 flex-col">
@@ -31,14 +31,14 @@ export default function Events() {
           const lastEventIsNow = isTimeBetween(
             new Date(),
             lastEvent.dateBegin,
-            lastEvent.dateEnd
+            lastEvent.dateEnd,
           );
           const now = isTimeBetween(new Date(), event.dateBegin, event.dateEnd);
           const newDay =
             event.dateBegin.getDate() != lastEvent.dateBegin.getDate() ||
             lastEventIsNow;
           return (
-            <Fragment key={i}>
+            <div key={i}>
               {now ? (
                 <h2 className="text-secondary my-2" key={i}>
                   {`Agora, às ${time}`}
@@ -57,7 +57,7 @@ export default function Events() {
                 dateEnd={event.dateEnd}
                 location={event.location}
               />
-            </Fragment>
+            </div>
           );
         })}
       </div>
