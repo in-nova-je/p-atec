@@ -111,7 +111,7 @@ public class AuthenticationController {
                 cookie.setHttpOnly(true);
                 cookie.setSecure(true);       // use false in local dev if not using HTTPS
                 cookie.setPath("/");
-                cookie.setMaxAge((int)JWT_EXPIRATION_TIME/1000); // convert ms → seconds
+                cookie.setMaxAge((int)JWT_EXPIRATION_TIME); // convert ms → seconds
                 response.addCookie(cookie);
                 UserDTO user=userService.getUserByName(name);
 
