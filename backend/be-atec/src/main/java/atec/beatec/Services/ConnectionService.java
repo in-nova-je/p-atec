@@ -46,17 +46,16 @@ public class ConnectionService implements IConnectionService {
     }
 
     @Transactional
-    public ConnectionDTO UpdateConnection(long id,long userid, long enterpriseid, Boolean isInternshipNoJob, String classname){
+    public ConnectionDTO UpdateConnection(long id, Boolean isInternshipNoJob, String classname){
         Connection existingConnection = connectionRepository.findById(id)
                 .orElseThrow(() -> new ConnectionNotFoundException(id));
 
         // Validações
         validateConnectionInput(isInternshipNoJob, classname);
-        UserDTO userFind=userService.getUserById(userid);
-        User user = userRepository.getReferenceById(userid);
-        System.out.println("user id:"+userid +"actual user id obtain for some reason:" +user.getId());
+        User user = existingConnection.getUser();
+        Enterprise enterprise = existingConnection.getEnterprise();
 
-        Enterprise enterprise =enterpriseService.getEnterpriseById(enterpriseid); // already throws exception
+
         Connection con = new Connection(id,user, enterprise, isInternshipNoJob, classname);
         Connection updated = connectionRepository.save(con);
 

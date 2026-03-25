@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collections;
 import java.util.Map;
 
+import static atec.beatec.config.SecurityConstants.JWT_EXPIRATION_TIME;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthenticationController {
@@ -109,7 +111,7 @@ public class AuthenticationController {
                 cookie.setHttpOnly(true);
                 cookie.setSecure(true);       // use false in local dev if not using HTTPS
                 cookie.setPath("/");
-                cookie.setMaxAge(3600);       // 1 hour in seconds
+                cookie.setMaxAge((int)JWT_EXPIRATION_TIME/1000); // convert ms → seconds
                 response.addCookie(cookie);
                 UserDTO user=userService.getUserByName(name);
 

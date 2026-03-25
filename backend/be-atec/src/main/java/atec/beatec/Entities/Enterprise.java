@@ -17,7 +17,6 @@ public class Enterprise {
     private String description;
 
 
-
     @Column(nullable = false)
     private String WebsiteLink;
 
@@ -95,7 +94,7 @@ public class Enterprise {
     public void setName(String name){this.name = name;}
     public void setDescription(String description){this.description = description;}
     public void setWebsiteLink(String WebsiteLink){this.WebsiteLink = WebsiteLink;}
-
+    public void setProfilePicture(String ProfilePicture){this.ProfilePicture = ProfilePicture;}
 
 
 }

@@ -8,7 +8,7 @@ import java.util.List;
 public interface IConnectionService {
     ConnectionDTO CreateConnection(long userid, long enterpriseid, Boolean isinternshipNoJob, String classname);
 
-    ConnectionDTO UpdateConnection(long id, long userid, long enterpriseid, Boolean isinternshipNoJob, String classname);
+    public ConnectionDTO UpdateConnection(long id, Boolean isInternshipNoJob, String classname);
 
     List<ConnectionDTO> getAllConnections(int pageSize, int pageNumber);
 

@@ -43,6 +43,7 @@ public class EnterpriseController {
         }
         Enterprise enterprise = EnterpriseService.createEnterprise(
                 name, Description, Websitelink,ProfilePicture);
+        enterprise.setProfilePicture(ProfilePicture.replace("\n", "").replace("\r", ""));
         return ResponseEntity.status(HttpStatus.CREATED).body(enterprise);
     }
 
@@ -88,10 +89,12 @@ public class EnterpriseController {
      * @return
      */
     @PutMapping("/{id}") //
-    public ResponseEntity<?> AlterByIdEnterprise(@PathVariable Long id, @RequestParam String name,String Description,@RequestParam String Websitelink) {
-
+    public ResponseEntity<?> AlterByIdEnterprise(@PathVariable Long id, @RequestParam String name,String Description,@RequestParam String Websitelink,@RequestParam String ProfilePicture) {
+        if (EnterpriseService.existsByName(name)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
         Enterprise updatedEnterprise = EnterpriseService.updateEnterprise(
-                id, name, Description, Websitelink);
+                id, name, Description, Websitelink,ProfilePicture);
         return ResponseEntity.ok(updatedEnterprise);
     }
 
@@ -103,10 +106,12 @@ public class EnterpriseController {
      */
     @PutMapping("name/{id}")
     public ResponseEntity<?> AlterByIdNameEnterprise(@PathVariable Long id, @RequestParam String name) {
-
+        if (EnterpriseService.existsByName(name)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
         Enterprise enterprise = EnterpriseService.getEnterpriseById(id);
         Enterprise updatedEnterprise = EnterpriseService.updateEnterprise(
-                id, name, enterprise.getDescription(), enterprise.getWebsiteLink());
+                id, name, enterprise.getDescription(), enterprise.getWebsiteLink(),enterprise.getProfilePicture());
         return ResponseEntity.ok(updatedEnterprise);
     }
 
@@ -123,7 +128,7 @@ public class EnterpriseController {
         Enterprise enterprise = EnterpriseService.getEnterpriseByName(name);
         Enterprise updatedEnterprise = EnterpriseService.updateEnterprise(
                 enterprise.getId(), enterprise.getName(), Description,
-                enterprise.getWebsiteLink());
+                enterprise.getWebsiteLink(),enterprise.getProfilePicture());
         return ResponseEntity.ok(updatedEnterprise);
     }
 
@@ -139,7 +144,7 @@ public class EnterpriseController {
         Enterprise enterprise = EnterpriseService.getEnterpriseByName(name);
         Enterprise updatedEnterprise = EnterpriseService.updateEnterprise(
                 enterprise.getId(), enterprise.getName(), enterprise.getDescription(),
-                WebsiteLink);
+                WebsiteLink,enterprise.getProfilePicture());
         return ResponseEntity.ok(updatedEnterprise);
     }
 

@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-const BACKEND_BASE = "http://localhost:8080/api";
+const BACKEND_BASE = "https://atec-backend.azurewebsites.net/api";
 
 function extractCookieValue(setCookie: string, name: string) {
   const match = setCookie.match(new RegExp(`${name}=([^;]+)`));

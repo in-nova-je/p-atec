@@ -73,9 +73,8 @@ public class ConnectionController {
         return ResponseEntity.ok(consDTO);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> UpdateConection(@PathVariable long id,@RequestParam long userid,@RequestParam long enterpriseid,@RequestParam Boolean isInternshipNoJob,@RequestParam String classname){
-        ConnectionDTO updatedConnectionDTO = connectionService.UpdateConnection(
-                id, userid, enterpriseid, isInternshipNoJob, classname);
+    public ResponseEntity<?> UpdateConection(@PathVariable long id,@RequestParam Boolean isInternshipNoJob,@RequestParam String classname){
+        ConnectionDTO updatedConnectionDTO = connectionService.UpdateConnection(id ,isInternshipNoJob, classname);
         return ResponseEntity.ok(updatedConnectionDTO);
     }
     @DeleteMapping

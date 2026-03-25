@@ -14,7 +14,7 @@ public interface IEnterpriseService {
      * @return The updated Enterprise entity.
      */
 
-    Enterprise updateEnterprise(Long id, String name,String Description, String Websitelink);
+    public Enterprise updateEnterprise(Long id, String name, String Description, String Websitelink,String ProfilePicture);
 
     /**
      * Creates a Enterprise details with the given name.

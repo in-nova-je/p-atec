@@ -55,7 +55,7 @@ export default function Companies() {
           ) : (
             filteredCompanies.map((company: Enterprise) => (
               <CompanyCard
-                key={company.name}
+                id={company.id}
                 name={company.name}
                 logo={"data:image/png;base64," + company.profilePicture}
                 description={company.description}
