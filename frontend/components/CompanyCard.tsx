@@ -17,13 +17,14 @@ export default function CompanyCard({
       className="flex gap-4 font-sans border-secondary/25 pb-5 border-b"
       href={`/companies/${id}`}
     >
-      <Image
-        src={logo}
-        width={100}
-        height={100}
-        alt={name}
-        className="h-full aspect-square rounded-xl"
-      />
+      <div className="relative w-25 h-25 shrink-0 rounded-xl overflow-hidden">
+        <Image
+          src={logo}
+          fill
+          alt={name}
+          className="object-contain"
+        />
+      </div>
       <div>
         <p className="font-semibold text-xl mb-2">{name}</p>
         <p className="text-ellipsis line-clamp-2 text-sm text-secondary">

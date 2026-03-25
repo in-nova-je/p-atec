@@ -6,7 +6,7 @@ export default function SearchBar({
   setSearch: (search: string) => void;
 }) {
   return (
-    <div className="fixed left-0 flex justify-center bottom-20 w-screen p-4 font-sans">
+    <div className="fixed left-0 flex justify-center bottom-20 w-screen p-4 font-sans z-10">
       <div
         className="bg-secondary/25 [&:has(input:focus)]:outline-2 outline-primary text-secondary 
       font-medium flex justify-between gap-2 w-full md:w-md p-4 rounded-[14px] transition-all duration-50
